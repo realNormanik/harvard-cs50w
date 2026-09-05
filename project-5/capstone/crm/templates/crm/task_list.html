@@ -1,0 +1,153 @@
+{% extends "crm/layout.html" %}
+<!-- Extends the base CRM layout -->
+
+{% block title %}Tasks - LeadFlow{% endblock %}
+<!-- Sets the page title -->
+
+{% load static %}
+<!-- Load static assets -->
+
+{% block content %}
+<!-- Page header: title and button to open the "new task" modal -->
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+    <h2 class="mb-0">Tasks</h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTaskModal">
+        + Add task
+    </button>
+</div>
+
+<!-- List of tasks -->
+<!-- Each task can be marked as completed using the custom checkbox -->
+<ul class="list-group" id="taskList">
+    {% for task in tasks %}
+    <!-- Single task item -->
+    <!-- Completed tasks receive a strikethrough and the "subtitle" class -->
+    <li
+      class="list-group-item d-flex justify-content-between align-items-center {% if task.is_done %}text-decoration-line-through subtitle{% endif %}"
+      data-task-id="{{ task.id }}"
+    >
+        <!-- Left section: checkbox and task information -->
+        <div class="d-flex align-items-center">
+            <!-- Custom checkbox container -->
+            <div class="check-container">
+                <!-- Hidden checkbox used to track the task completion state -->
+                <input type="checkbox"
+                       id="cbx-{{ task.id }}"
+                       class="task-checkbox"
+                       style="display: none;"
+                       {% if task.is_done %}checked{% endif %}>
+                <!-- Custom checkbox label with an SVG checkmark -->
+                <label for="cbx-{{ task.id }}" class="check">
+                    <svg width="18px" height="18px" viewBox="0 0 18 18">
+                        <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z"></path>
+                        <polyline points="1 9 7 14 15 4"></polyline>
+                    </svg>
+                </label>
+            </div>
+            <!-- Task title and optional client name -->
+            <div>
+                {{ task.title }}
+                {% if task.client %} : <em>{{ task.client }}</em>{% endif %}
+            </div>
+        </div>
+        <!-- Right section: task due date -->
+        <div>
+            {% if task.due_date %}
+                <small class="subtitle">{{ task.due_date }}</small>
+            {% endif %}
+        </div>
+    </li>
+    {% empty %}
+    <!-- Fallback message shown when there are no tasks -->
+    <li class="subtitle list-group-item">No tasks.</li>
+    {% endfor %}
+</ul>
+
+
+<!-- Modal: create a new task -->
+<div
+  class="modal fade"
+  id="newTaskModal"
+  tabindex="-1"
+  aria-labelledby="newTaskModalLabel"
+  aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Task creation form -->
+            <form method="post">
+                {% csrf_token %}
+                <!-- Modal header containing the title and close button -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newTaskModalLabel">New task</h5>
+                    <!-- Button used to close the modal -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- Modal body containing the Django form fields -->
+                <div class="modal-body">
+                    <!-- Render each form field with its label and validation errors -->
+                    {% for field in form %}
+                    <div class="mb-2">
+                        <!-- Form field label -->
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                        </label>
+                        <!-- Render the form field -->
+                        {{ field }}
+                        <!-- Display validation errors for the current field -->
+                        {% if field.errors %}
+                        <div class="text-danger">
+                            {{ field.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Modal footer containing the submit button -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_scripts %}
+
+<!-- JavaScript: handles changing the task completion status -->
+<script>
+    // Find all task checkboxes and attach a change event listener
+    document.querySelectorAll(".task-checkbox").forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            // Get the task list item containing the clicked checkbox
+            const li = this.closest("li");
+            // Get the task ID from the data-task-id attribute
+            const taskId = li.dataset.taskId;
+
+            // Send a POST request to toggle the task completion status
+            fetch(`/tasks/${taskId}/toggle`, {
+                method: "POST",
+
+                // Include the CSRF token required by Django
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            })
+            // Convert the server response to JSON
+            .then(res => res.json())
+            // Update the task appearance based on the new completion status
+            .then(data => {
+                // Add or remove the strikethrough class
+                li.classList.toggle(
+                    "text-decoration-line-through",
+                    data.is_done
+                );
+                // Add or remove the subtitle class
+                li.classList.toggle(
+                    "subtitle",
+                    data.is_done
+                );
+            });
+        });
+    });
+</script>
+{% endblock %}

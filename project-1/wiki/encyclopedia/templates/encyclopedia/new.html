@@ -1,0 +1,45 @@
+{% extends "encyclopedia/layout.html" %}
+<!-- Extend the base layout template from the encyclopedia app -->
+
+{% block title %}
+     - New page
+{% endblock %}
+<!-- Define the title of the page as "Encyclopedia" within the title block -->
+
+{% block body %}
+    <div class="title">
+        <h1>New Page</h1>
+        <!-- Display the title "New Page" indicating the user is on the page to create a new entry -->
+    </div>
+
+    <form action="{% url 'wiki:new' %}" method="post" style="margin-top: 1em;">
+    <!-- Form to submit the new entry. The `action` points to the URL for creating a new entry, defined in the 'wiki:new' URL pattern -->
+    <!-- `method="post"` specifies that the form will submit data via POST request -->
+    
+        <div class="form-group">
+        <!-- Group for the title input field -->
+
+            <label for="title">Entry Title:</label>
+            <!-- Label for the title input field -->
+
+            <input type="text" name="title" id="title" class="form-control">
+            <!-- Input field for the entry title. `name="title"` sends the title data in the POST request, and `class="form-control"` applies styling -->
+        </div>
+
+        <div class="form-group">
+        <!-- Group for the content textarea -->
+
+            <label for="content">Entry Content:</label>
+            <!-- Label for the content textarea -->
+
+            <textarea class="form-control" name="content" rows="15" id="content"></textarea>
+            <!-- Textarea for the entry content. `name="content"` sends the content data in the POST request, and `rows="15"` sets the height of the textarea -->
+        </div>
+
+        {% csrf_token %}
+        <!-- CSRF token for security to protect against cross-site request forgery attacks -->
+
+        <button>Submit</button>
+        <!-- Submit button to submit the form and create the new entry -->
+    </form>
+{% endblock %}

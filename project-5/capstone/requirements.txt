@@ -1,0 +1,5 @@
+Django
+requests
+psycopg[binary]
+dj-database-url
+python-dotenv

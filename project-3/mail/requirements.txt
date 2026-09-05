@@ -1,0 +1,7 @@
+Django
+requests
+psycopg[binary]
+dj-database-url
+python-dotenv
+vercel_blob
+uuid

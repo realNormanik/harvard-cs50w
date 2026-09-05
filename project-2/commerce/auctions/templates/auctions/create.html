@@ -1,0 +1,74 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+<!-- Extends the base layout -->
+
+{% block title %}
+    Create Listing | My_realNormanik
+{% endblock %}
+<!-- Define the title of the page as "Create Listing" within the title block -->
+
+{% block body %}
+    <!-- Body content block -->
+    <h2>Create Listing</h2>
+    <!-- Heading for the create listing page -->
+
+    <form action="{% url 'insert' %}" method="post" enctype="multipart/form-data">
+        <!-- Form to create a new listing -->
+        {% csrf_token %}
+        <!-- CSRF token for security -->
+
+        <div class="form-row">
+            <div class="form-create">
+                <label>{{ form.title.label }}:</label>
+                {{ form.title }}
+                <!-- Input for the listing title -->
+            </div>
+            <div class="form-create">
+                <label>{{ form.category.label }}:</label>
+                {{ form.category }}
+                <!-- Dropdown or input for selecting the category -->
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-create">
+                <label>{{ form.price.label }}:</label>
+                {{ form.price }}
+                <!-- Input for the product price -->
+            </div>
+            <div class="form-create">
+                <label>{{ form.starting_bid.label }}:</label>
+                {{ form.starting_bid }}
+                <!-- Input for the starting bid -->
+            </div>
+        </div>
+
+        <!-- Image upload with icon -->
+        <div class="form-create">
+            <label>{{ form.image.label }}:</label>
+            <div id="image-upload-container" class="image-upload-container">
+                <div id="image-upload-empty">
+                    <div>
+                        <i class="fa-regular fa-images" id="image-product-icon"></i>
+                        <p class="image-upload-title">Drag and drop files</p>
+                        <span class="image-upload-text">or click here</span>
+                    </div>
+                </div>
+                <img id="image-preview" style="display: none;" />
+                <input type="file" id="image-input" name="image" style="display: none;" accept="image/*">
+            </div>
+        </div>
+
+        <label>{{ form.description.label }}</label>
+        {{ form.description }}
+        <!-- Textarea for the product description -->
+
+        <button class="button-create" type="submit">Create product</button>
+        <!-- Submit button to create the listing -->
+    </form>
+{% endblock %}
+<!-- End body block -->
+
+{% block script %}
+    <script src="{% static 'auctions/script.js' %}"></script>
+{% endblock %}

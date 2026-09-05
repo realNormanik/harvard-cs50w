@@ -1,0 +1,67 @@
+{% extends "auctions/layout.html" %}
+<!-- Extends the base layout -->
+
+{% block title %}
+    Watchlist | My_realNormanik
+{% endblock %}
+<!-- Define the title of the page as "Watchlist" within the title block -->
+
+{% block body %}
+    <h2>Watchlist</h2>
+    <!-- Title for the Watchlist page -->
+
+    <div class="products-list">
+        {% if watchlist %}
+            <!-- Check if there are items in the watchlist -->
+            {% for item in watchlist %}
+                <div class="row">
+                    <!-- Row for each item in the watchlist -->
+
+                    {% if item in user.watchlist.all %}
+                        <!-- If the item is in the user's watchlist, display the filled heart icon -->
+                        <a class="text-danger" href="{% url 'unwatch' item.id %}">
+                            <i class="fa fa-heart"></i>
+                        </a>
+                    {% else %}
+                        <!-- Otherwise, display the outlined heart icon -->
+                        <a class="text-danger" href="{% url 'watch' item.id %}">
+                            <i class="far fa-heart"></i>
+                        </a>
+                    {% endif %}
+
+                    <a href="{% url 'listing' item.id %}">
+                        <!-- Link to the item's detail page -->
+                        <img class="product-list-image" src="{{ item.image }}" alt="{{ item.title }}">
+                    </a>
+
+                    <div>
+                        <h3 class="product-list-title">
+                            <a href="{% url 'listing' item.id %}">{{ item.title }}</a>
+                            <!-- Item title linking to its detail page -->
+                        </h3>
+
+                        {% if item.price %}
+                            <!-- Display item's price if available -->
+                            <div class="product-list-price">${{ item.price }}</div>
+                        {% else %}
+                            <!-- Show "Not specified" if price is unavailable -->
+                            <div class="product-list-price">Not specified</div>
+                        {% endif %}
+
+                        {% if item.winner is None %}
+                            <!-- Indicate that the item is available -->
+                            <div>Available</div>
+                        {% else %}
+                            <!-- Indicate that the item has been sold -->
+                            <div>Sold</div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <!-- Message when the watchlist is empty -->
+            <span>Your watchlist is empty.</span>
+        {% endif %}
+    </div>
+{% endblock %}
+<!-- End body block -->

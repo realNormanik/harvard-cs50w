@@ -1,0 +1,67 @@
+{% load static %}
+
+<!-- Popup for Registration -->
+<div class="modal" id="popup-register">
+    <div class="modal-content">
+        <div>
+            <div class="popup-interface">
+                <i class="fa-solid fa-xmark" id="close-popup"></i>
+                <img src="{% static '/network/logo.svg' %}" height="45" alt="logo"/>
+            </div>
+        </div>
+        <div class="popup-form">
+            <h2>Create your account</h2>
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="login-label" for="username-register">Username</label>
+                    <input id="username-register" class="form-control front" type="text" name="username" required onfocus="setActiveLabel('username-register')" oninput="checkInput('username-register')">
+                </div>
+
+                <div class="form-group">
+                    <label class="login-label" for="email-register">Email</label>
+                    <input id="email-register" class="form-control front" type="email" name="email" required onfocus="setActiveLabel('email-register')" oninput="checkInput('email-register')">
+                </div>
+
+                <div class="form-group">
+                    <label class="login-label" for="password-register">Password</label>
+                    <input id="password-register" class="form-control front" type="password" name="password" required onfocus="setActiveLabel('password-register')" oninput="checkInput('password-register')">
+                </div>
+
+                <div class="form-group">
+                    <label class="login-label" for="confirmation-register">Confirm password</label>
+                    <input id="confirmation-register" class="form-control front" type="password" name="confirmation" required onfocus="setActiveLabel('confirmation-register')" oninput="checkInput('confirmation-register')">
+                </div>
+
+                <input class="button-login" type="submit" value="Register" style="margin-top: 45px;">
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Popup for Login -->
+<div class="modal" id="popup-login">
+    <div class="modal-content">
+        <div class="popup-interface">
+            <i class="fa-solid fa-xmark" id="close-popup"></i>
+            <img src="{% static '/network/logo.svg' %}" height="45" alt="logo"/>
+        </div>
+
+        <div class="popup-form">
+            <h2>Sign in to _N</h2>
+            <form action="{% url 'login' %}" method="post" style="display: grid;">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="login-label" for="username-login">Username</label>
+                    <input id="username-login" class="form-control front" type="text" name="username" required onfocus="setActiveLabel('username-login')" oninput="checkInput('username-login')">
+                </div>
+                <div class="form-group">
+                    <label class="login-label" for="password-login">Password</label>
+                    <input id="password-login" class="form-control front" type="password" name="password" required onfocus="setActiveLabel('password-login')" oninput="checkInput('password-login')">
+                </div>
+
+                <input class="button-login" type="submit" value="Login" style="margin-top: 45px;">
+            </form>
+        </div>
+    </div>
+</div>

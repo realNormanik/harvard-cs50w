@@ -1,0 +1,78 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block title %}
+    / Inbox
+{% endblock %}
+<!-- Define the title of the page as "Inbox" within the title block -->
+
+{% block body %}
+    <!-- Container for displaying emails -->
+    <div class="container-view" id="emails-view">
+
+    </div>
+
+    <!-- Container for displaying a single email's details -->
+    <div id="email-view">
+        <div class="container">
+            <div class="container-view">
+                <div style="display: flex; gap: 25px;">
+                    <!-- Labels for email details -->
+                    <div>
+                        <p>From: </p>
+                        <p>To: </p>
+                        <p>Subject: </p>
+                        <p>Received: </p>
+                    </div>
+                    <!-- Dynamic content for email details -->
+                    <div>
+                        <p id='from'></p>
+                        <p id='to'></p>
+                        <p id='subject'></p>
+                        <p id='date'></p>
+                    </div>
+                </div>
+                <div id="emailBody"></div> <!-- Email body content -->
+                <button id='replyButton' class="">Reply</button> <!-- Reply button -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Div element for the compose email form -->
+    <div id="compose-view">
+        <h3 id="NewOrReply"></h3> <!-- Header for composing or replying -->
+        <form id="compose-form">
+            <!-- Disabled input field showing the sender's email -->
+            <div class="form-group">
+                From:
+                <input disabled class="form-control" value="{{ request.user.email }}">
+            </div>
+            <!-- Input field for the recipient's email -->
+            <div class="form-group">
+                To:
+                <input id="compose-recipients" class="form-control" onfocus="setActiveLabel('compose-recipients')" oninput="checkInput('compose-recipients')">
+            </div>
+            <!-- Input field for the subject of the email -->
+            <div class="form-group">
+                Subject:
+                <input id="compose-subject" class="form-control" onfocus="setActiveLabel('compose-subject')" oninput="checkInput('compose-subject')">
+            </div>
+            <!-- Rich text editor for the body of the email -->
+            Body:
+            <div id="compose-body" class="rich-text-editor"></div>
+            <div>
+                <!-- Submit button to send the email -->
+                <input type="submit" class="button-send" value="Send"/>
+                <!-- Emoji button for the body of the email -->
+                <button id="emoji-button" class="button-emoji" type="button">
+                    <i class="fa-regular fa-face-grin-hearts"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block Quill %}
+    <!-- Include Quill CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/quill/dist/quill.snow.css" rel="stylesheet">
+{% endblock %}

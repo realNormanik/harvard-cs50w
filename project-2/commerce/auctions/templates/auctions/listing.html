@@ -1,0 +1,166 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+<!-- Extends the base layout -->
+
+{% block title %}
+    {{ auction.title }}
+{% endblock %}
+<!-- Define the title of the page within the title block -->
+
+{% block body %}
+    <!-- Body content block -->
+    {% if auction.winner is not None and user == bid.user %}
+        <h2 class="text-success">Highest bid, you are the winner!</h2>
+        <!-- Display message if the user is the winner -->
+    {% endif %}
+
+    <div class="listing-container">
+        <!-- Container for auction details -->
+        <div class="listing-box">
+            <img src="{{ auction.image }}" class="product-page-image">
+            <!-- Display the auction image -->
+        </div>
+        <div class="listing-box">
+            <div class="project-info-box">
+                <!-- Auction information -->
+                <h3 class="product-page-title">{{ auction.title }}</h3>
+                <p class="product-page-author"><b>Author: </b> {{ auction.user }}</p>
+                <p class="product-page-price"><b>Price: US ${{ auction.price|default:"Not Specified" }}</b></p>
+                <!-- Show price or default message -->
+
+                {% if user == bid.user %}
+                    {% if auction.winner is not None %}
+                        <h5 class="product-page-bid">{{ auction.bid_counter }} Bid(s) in total.<span>Congratulations, {{ bid.user }}! 🎊</span></h5>
+                    {% else %}
+                        <h5 class="product-page-bid">{{ auction.bid_counter }} Bid(s) so far.<span>Your bid is the current bid.</span></h5>
+                    {% endif %}
+                {% else %}
+                    <h5 class="product-page-bid">{{ auction.bid_counter }} Bid(s) so far.</h5>
+                    <!-- Show the bid count -->
+                {% endif %}
+                <p>Current Bid: <strong>${{ bid.amount }}</strong><p>
+                <p>Status: <strong>{{ auction.winner|yesno:"Sold,Available" }}</strong></p>
+                <!-- Show auction status -->
+
+                {% if not auction.user == user %}
+                    <form action="{% url 'update_bid' auction.id %}" method="POST">
+                        {% csrf_token %}
+                        <div>
+                            {% if auction.winner is not None %}
+                                <div class="input-group-prepend">
+                                    <input disabled class="form-control product" type="number" min="{{ bid.amount }}" step="0.01" max="99999999999.99" name="bid" placeholder="Highest bid: ${{ bid.amount }}">
+                                    <button disabled class="button-offer" type="submit">{{ auction.winner|yesno:"Lot Sold,Winner" }}</button>
+                                </div>
+                            {% else %}
+                                <div class="input-group-prepend">
+                                    <input required class="form-control product" type="number" min="{{ bid.amount }}" step="0.01" max="99999999999.99" name="bid" placeholder="Current Bid: ${{ bid.amount }}">
+                                    <button class="button-offer" type="submit">Bid Now!</button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                {% else %}
+                    <form action="{% url 'close_bid' auction.id %}" method="POST">
+                        {% csrf_token %}
+                        <div>
+                            <div class="input-group-prepend">
+                                <input disabled type="text" class="form-control product" placeholder="Last bid: {{ bid.user }} (${{ bid.amount }})">
+                                <button class="button-offer" type="submit">Close Bid</button>
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 1em;">
+        <!-- Section for item details -->
+        <div class="tab-list">
+            <div class="tab">
+                <p class="tab-info">About this item</p>
+            </div>
+        </div>
+        <div class="tab-content">
+            <table style="border-spacing: 0px 10px;">
+                <thead>
+                    <tr>
+                        <td>
+                            <p class="seller-text">Seller assumes all responsibility for this listing.</p>
+                            <h2 style="margin: 30px 0 10px;">Item specifics</h2>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="product-attribute">Created at:</td>
+                        <td>{{ auction.created_at }}</td>
+                    </tr>
+                    <tr>
+                        <td class="product-attribute">Last Updated:</td>
+                        <td>{{ bid.created_at }}</td>
+                    </tr>
+                    <tr>
+                        <td class="product-attribute">Category:</td>
+                        <td>{{ auction.category|default:"Not listed." }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 2em;">
+                <h2>Item description from the seller</h2>
+                <p>{{ auction.description }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="comments">
+        <!-- Section for comments -->
+        <div class="comment-form">
+            <label>Comments:</label>
+            <form action="{% url 'add_comment' auction.id %}" class="form-group" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    {{ comment_form.text }}
+                </div>
+                <div style="display: none;">
+                    {{ comment_form.image }}
+                </div>
+                <div class="button-box">
+                    <button class="button-comment" type="submit">Add comment</button>
+                    <div class="button-box">
+                        <button id="emoji-button" class="button-emoji" type="button">
+                            <i class="fa-regular fa-face-grin-hearts"></i>
+                        </button>
+                        <i id="image-comment-icon" class="fa-regular fa-image"></i>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="comment-card">
+            <h2>Product feedback</h2>
+            {% for comment in comments %}
+                <div>
+                    <div class="card-header">
+                        <i class="fa-solid fa-circle-plus" style="color: #05823F;"></i>
+                        <p class="comment-author">{{ comment.user.username }} - {{ comment.created_at }}</p>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ comment.text }}</p>
+                        {% if comment.image %}
+                            <img class="comment-image" src="{{ comment.image }}" alt="Comment image">
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="card-body">
+                    <p>No comments for this auction yet.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+<!-- End body block -->
+
+{% block script %}
+    <script src="{% static 'auctions/script.js' %}"></script>
+{% endblock %}

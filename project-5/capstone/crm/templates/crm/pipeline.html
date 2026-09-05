@@ -1,0 +1,135 @@
+{% extends "crm/layout.html" %}
+<!-- Extends the base CRM layout -->
+
+{% block title %}Pipeline - LeadFlow{% endblock %}
+<!-- Sets the page title -->
+
+{% load static %}
+<!-- Load static assets -->
+
+{% block content %}
+<!-- Page header: title and button to open the "new deal" modal -->
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+    <h2>Pipeline</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newDealModal">
+        + New deal
+    </button>
+</div>
+
+<!-- Column view (desktop) / list view (mobile handled via CSS media queries) -->
+<div class="pipeline-board" id="pipelineBoard">
+    {# Render one column per pipeline stage #}
+    {% for stage in stages %}
+    <div class="pipeline-column" data-stage-id="{{ stage.id }}">
+        <h5 class="pipeline-column-title">{{ stage.name }}</h5>
+        <div class="pipeline-cards" data-stage-id="{{ stage.id }}">
+            {# Render one draggable card per deal in this stage #}
+            {% for deal in stage.deals.all %}
+            <div class="pipeline-card {% if deal.is_overdue %}overdue{% endif %} {% if deal.is_closed %}completed{% endif %}"
+                 draggable="true"
+                 data-deal-id="{{ deal.id }}">
+                <div class="d-flex justify-content-between align-items-start">
+                    <strong>{{ deal.title }}</strong>
+                    <span class="badge bg-{{ deal.priority }}-priority">{{ deal.get_priority_display }}</span>
+                </div>
+                <div class="subtitle small">{{ deal.client }}</div>
+                {# Show value only if it's set #}
+                {% if deal.value %}
+                    <div class="subtitle small">Value: ${{ deal.value }}</div>
+                {% endif %}
+                {# Show due date only if it's set #}
+                {% if deal.due_date %}
+                    <div class="subtitle small">Date: {{ deal.due_date }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Modal: create a new deal -->
+<div class="modal fade" id="newDealModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="{% url 'pipeline' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">New deal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {# Render each form field with its label and validation errors #}
+                    {% for field in form %}
+                    <label for="{{ field.id_for_label }}" class="form-label">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.errors %}
+                    <div class="text-danger">
+                        {{ field.errors }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: edit deal (populated dynamically by JS when a card is clicked) -->
+<div class="modal fade" id="editDealModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit deal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Hidden field storing the ID of the deal currently being edited -->
+                <input type="hidden" id="editDealId">
+                <div class="mb-2">
+                    <label class="form-label">Title</label>
+                    <input type="text" id="editDealTitle" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Description</label>
+                    <textarea id="editDealDescription" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Value ($)</label>
+                    <input type="number" step="0.01" id="editDealValue" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Priority</label>
+                    <select id="editDealPriority" class="form-select">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Date</label>
+                    <input type="date" id="editDealDueDate" class="form-control">
+                </div>
+            </div>
+            <!-- Footer actions: delete, mark as completed, or save changes -->
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" id="deleteDealBtn">Delete</button>
+                <button type="button" class="btn btn-success" id="toggleCompleteBtn">Completed</button>
+                <button type="button" class="btn btn-primary" id="saveDealBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Handles drag-and-drop reordering, card click (opens edit modal), and AJAX save/delete/toggle -->
+<script src="{% static 'crm/pipeline.js' %}"></script>
+{% endblock %}

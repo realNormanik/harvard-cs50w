@@ -1,0 +1,121 @@
+{% load static %}
+<!-- Load static assets -->
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRM Pipeline{% endblock %}</title>
+
+    <link rel="icon" href="{% static '/crm/favicon.ico' %}" /><!-- Link to the favicon using Django's static tag -->
+
+    <!-- Bootstrap CSS (responsiveness, grid system, components) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom project styles -->
+    <link rel="stylesheet" href="{% static 'crm/styles.css' %}">
+
+    {# Hook for child templates to inject extra <head> content (e.g. page-specific CSS) #}
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    {# Navbar is only rendered for logged-in users #}
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+        <!-- Brand/logo linking back to the main pipeline view -->
+        <a class="navbar-brand" href="{% url 'pipeline' %}">
+            <div class="logo">
+                <img src="{% static '/crm/logo.svg' %}" height="40" alt="logo" />
+
+                LeadFlow
+            </div>
+        </a>
+
+        <!-- Mobile menu toggle button (burger icon) -->
+        <button class="btn-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <label class="burger" for="burger">
+                <input type="checkbox" id="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </button>
+
+        <!-- Collapsible navigation menu -->
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Main navigation links -->
+                <li class="nav-item">
+                    <a class="nav-link fw-bold" href="{% url 'pipeline' %}">Pipeline</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-bold" href="{% url 'client_list' %}">Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-bold" href="{% url 'task_list' %}">Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-bold" href="{% url 'dashboard' %}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-bold" href="{% url 'stage_settings' %}">Stages</a>
+                </li>
+            </ul>
+            
+            <div class="navbar-control">
+                <!-- Light/dark theme toggle switch (sun/moon icons) -->
+                <div class="logout-box">
+                    <label class="switch" id="theme-toggle">
+                        <span class="sun">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g fill="#ffd43b">
+                                    <circle r="5" cy="12" cx="12"></circle>
+                                    <path d="m21 13h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm-17 0h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm13.66-5.66a1 1 0 0 1 -.66-.29 1 1 0 0 1 0-1.41l.71-.71a1 1 0 1 1 1.41 1.41l-.71.71a1 1 0 0 1 -.75.29zm-12.02 12.02a1 1 0 0 1 -.71-.29 1 1 0 0 1 0-1.41l.71-.66a1 1 0 0 1 1.41 1.41l-.71.71a1 1 0 0 1 -.7.24zm6.36-14.36a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm0 17a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm-5.66-14.66a1 1 0 0 1 -.7-.29l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.29zm12.02 12.02a1 1 0 0 1 -.7-.29l-.66-.71a1 1 0 0 1 1.36-1.36l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.24z"></path>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="moon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                <path d="m223.5 32c-123.5 0-223.5 100.3-223.5 224s100 224 223.5 224c60.6 0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9 0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"></path>
+                            </svg>
+                        </span>
+                        <input type="checkbox" class="input">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Logged-in username display and logout button -->
+                <div class="logout-box">
+                    <span class="navbar-text text-light me-3">
+                        Username: <strong>{{ user.username }}</strong>
+                    </span>
+
+                    <a href="{% url 'logout' %}" class="btn btn-primary fs-6 btn-sm">Log out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <!-- Main content area -->
+    <div class="container-fluid mt-4 px-3">
+        {# Optional one-off warning message passed from a view #}
+        {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+        {% endif %}
+        {# Page-specific content injected by child templates #}
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Bootstrap JS bundle (required for modals, navbar collapse, etc.) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom script handling theme/burger toggle behavior -->
+    <script src="{% static 'crm/script.js' %}"></script>
+
+    {# Hook for child templates to inject extra scripts at the end of <body> #}
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

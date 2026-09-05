@@ -1,0 +1,73 @@
+{% extends "crm/layout.html" %}
+<!-- Extends the base CRM layout -->
+
+{% block title %}Dashboard - LeadFlow{% endblock %}
+<!-- Sets the page title -->
+
+{% load static %}
+<!-- Load static assets -->
+
+{% block content %}
+<h2 class="mb-4">Dashboard</h2>
+<!-- Page heading -->
+{# Summary cards row: quick KPI overview (deal count, value, closed, overdue) #}
+<div class="row mb-4">
+    <!-- Card: total number of deals -->
+    <div class="col-6 col-md-3 mb-3">
+        <div class="card text-center p-3">
+            <h6>All deal</h6>
+            <h3>{{ total_deals }}</h3>
+        </div>
+    </div>
+
+    <!-- Card: total monetary value of all deals -->
+    <div class="col-6 col-md-3 mb-3">
+        <div class="card text-center p-3">
+            <h6>Total value</h6>
+            <h3>{{ total_value }} zł</h3>
+        </div>
+    </div>
+
+    <!-- Card: count of deals marked as closed/won -->
+    <div class="col-6 col-md-3 mb-3">
+        <div class="card text-center p-3">
+            <h6>Closed</h6>
+            <h3>{{ closed_won }}</h3>
+        </div>
+    </div>
+
+    <!-- Card: count of overdue deals (highlighted in red) -->
+    <div class="col-6 col-md-3 mb-3">
+        <div class="card text-center p-3">
+            <h6>Overdue</h6>
+            <h3 class="text-danger">{{ overdue_count }}</h3>
+        </div>
+    </div>
+</div>
+
+<!-- Chart container: canvas where Chart.js renders the stage breakdown chart -->
+<div class="chart-container">
+    <canvas id="stageChart"></canvas>
+</div>
+
+<!-- External Chart.js library (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/chart.umd.min.js"></script>
+<!-- Local script exposing initDashboardChart() used below -->
+<script src="{% static 'crm/dashboard.js' %}"></script>
+
+{{ stage_stats|json_script:"stage-data" }}
+
+<script>
+    // Read and parse the JSON data injected by json_script above
+    const stageData = JSON.parse(
+        document.getElementById("stage-data").textContent
+    );
+
+    // Extract chart labels (stage names) and values (deal counts) from the data
+    const stageLabels = stageData.map(stage => stage.name);
+    const stageCounts = stageData.map(stage => stage.deal_count);
+
+    // Build/render the chart using the external dashboard.js helper
+    initDashboardChart(stageLabels, stageCounts);
+</script>
+{% endblock %}

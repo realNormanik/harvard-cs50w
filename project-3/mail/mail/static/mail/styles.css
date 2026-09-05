@@ -1,0 +1,670 @@
+/* ==========================================================================
+   CSS Custom Properties (Design Tokens)
+   ========================================================================== */
+:root {
+  /* Colors — brand */
+  --color-primary: #7d2eff;
+  --color-primary-hover: #6001d0;
+  --color-primary-active: #5015b0;
+
+  /* Colors — neutral / UI */
+  --color-bg: #f0f3f5;
+  --color-surface: #ffffff;
+  --color-text: #1d2228;
+  --color-text-secondary: #232a31;
+  --color-text-muted: #8f8f8f;
+  --color-text-heading: #000000;
+  --color-border-light: #f1f1f5;
+  --color-border-input: #b9bdc5;
+  --color-border-social: #b0b9c1;
+  --color-error: red;
+
+  /* Colors — GitHub badge */
+  --color-github-bg: #343535;
+  --color-github-hover: #a6a6a6;
+  --color-github-text: #ffffff;
+
+  /* Fonts */
+  --font-yahoo-sans: "Yahoo Sans", Arial;
+  --font-yahoo-sans-cr4: "Yahoo Sans CR4", Arial;
+  --font-centra-no2: "Centra No2";
+  --font-mono: monospace;
+
+  /* Font sizes */
+  --font-size-2xs: 13px;
+  --font-size-xs: 15px;
+  --font-size-sm: 16px;
+  --font-size-base: 17px;
+  --font-size-md: 19px;
+  --font-size-lg: 20px;
+  --font-size-xl: 21px;
+  --font-size-2xl: 25px;
+
+  /* Font weights */
+  --font-weight-light: 300;
+  --font-weight-normal: normal;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: bold;
+  --font-weight-bold-num: 700;
+
+  /* Line heights */
+  --line-height-tight: 21px;
+  --line-height-base: 25px;
+  --line-height-loose: 30px;
+  --line-height-header: 84px;
+
+  /* Spacing scale */
+  --space-0: 0;
+  --space-xs: 10px;
+  --space-sm: 12px;
+  --space-md: 20px;
+  --space-lg: 30px;
+
+  /* Sizing */
+  --width-full: 100%;
+  --height-full: 100%;
+  --margin-auto: auto;
+  --width-button-compact: 135px;
+
+  /* Border radius */
+  --radius-sm: 15px;
+  --radius-md: 16px;
+  --radius-pill: 25px;
+
+  /* Borders */
+  --border-width: 1px;
+  --border-style: solid;
+  --border-none: none;
+  --border-color-transparent: transparent;
+  --border-default: var(--border-width) var(--border-style) var(--border-color-transparent);
+
+  /* Layout keywords */
+  --display-flex: flex;
+  --display-block: block;
+  --display-none: none;
+  --align-center: center;
+  --justify-center: center;
+  --text-align-center: center;
+  --position-relative: relative;
+  --position-absolute: absolute;
+  --position-fixed: fixed;
+  --position-edge-0: 0;
+
+  /* Misc keywords */
+  --cursor-pointer: pointer;
+  --cursor-text: text;
+  --text-decoration-none: none;
+
+  /* Shadows */
+  --shadow-card: 0 0 1px 0 rgba(29, 34, 40, .1), 0 2px 4px 0 rgba(29, 34, 40, .08);
+
+  /* Transitions */
+  --transition-fast: all 0.2s;
+  --transition-default: all 0.3s;
+  --transition-color: color .15s cubic-bezier(1, -.115, .975, .855);
+}
+
+/* ==========================================================================
+   Font Faces
+   ========================================================================== */
+@font-face {
+  font-family: "Yahoo Sans";
+  font-display: swap;
+  src: url("/static/mail/yahoo-sans-light.woff2") format("woff2");
+  font-weight: var(--font-weight-light);
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Yahoo Sans";
+  font-display: swap;
+  src: url("/static/mail/yahoo-sans-semibold.woff2") format("woff2");
+  font-weight: var(--font-weight-semibold);
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Yahoo Sans";
+  font-display: swap;
+  src: url("/static/mail/yahoo-sans-bold.woff2") format("woff2");
+  font-weight: var(--font-weight-bold-num);
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Centra No2";
+  font-display: swap;
+  src: url("/static/mail/centra-no2-bold.woff2") format("woff2");
+  font-weight: var(--font-weight-bold-num);
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Yahoo Sans CR4";
+  font-display: swap;
+  src: url("/static/mail/yahoo-sans-cr4-vf.woff2") format("woff2");
+}
+
+/* ==========================================================================
+   Base / Reset
+   ========================================================================== */
+body {
+  margin: var(--space-0);
+  font-family: var(--font-yahoo-sans-cr4);
+  background-color: var(--color-bg);
+}
+
+header {
+  position: var(--position-relative);
+  display: var(--display-flex);
+  align-items: var(--align-center);
+  height: var(--line-height-header);
+  line-height: var(--line-height-header);
+  padding-left: 50px;
+  padding-right: 50px;
+  background-color: var(--color-surface);
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+h1 {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+h2 {
+  margin: var(--space-0);
+  font-family: var(--font-centra-no2);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-tight);
+}
+
+h3 {
+  margin-top: var(--space-0);
+  font-family: var(--font-centra-no2);
+}
+
+p {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-light);
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: var(--text-decoration-none);
+}
+
+/* ==========================================================================
+   Links & Quill Editor Toolbar — interactive states
+   ========================================================================== */
+a:hover,
+.button-emoji:hover,
+.ql-snow a,
+.ql-snow.ql-toolbar button:hover,
+.ql-snow .ql-toolbar button:hover,
+.ql-snow.ql-toolbar button:focus,
+.ql-snow .ql-toolbar button:focus,
+.ql-snow.ql-toolbar button.ql-active,
+.ql-snow .ql-toolbar button.ql-active,
+.ql-snow.ql-toolbar .ql-picker-label:hover,
+.ql-snow .ql-toolbar .ql-picker-label:hover,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active,
+.ql-snow.ql-toolbar .ql-picker-item:hover,
+.ql-snow .ql-toolbar .ql-picker-item:hover,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+  color: var(--color-primary-hover) !important;
+  transition: var(--transition-default);
+}
+
+.ql-snow.ql-toolbar button:hover .ql-stroke,
+.ql-snow .ql-toolbar button:hover .ql-stroke,
+.ql-snow.ql-toolbar button:focus .ql-stroke,
+.ql-snow .ql-toolbar button:focus .ql-stroke,
+.ql-snow.ql-toolbar button.ql-active .ql-stroke,
+.ql-snow .ql-toolbar button.ql-active .ql-stroke,
+.ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,
+.ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+.ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke,
+.ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
+.ql-snow.ql-toolbar button:hover .ql-stroke-miter,
+.ql-snow .ql-toolbar button:hover .ql-stroke-miter,
+.ql-snow.ql-toolbar button:focus .ql-stroke-miter,
+.ql-snow .ql-toolbar button:focus .ql-stroke-miter,
+.ql-snow.ql-toolbar button.ql-active .ql-stroke-miter,
+.ql-snow .ql-toolbar button.ql-active .ql-stroke-miter,
+.ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+.ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+.ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+.ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
+  stroke: var(--color-primary-hover) !important;
+  transition: var(--transition-default);
+}
+
+.ql-snow.ql-toolbar button:hover .ql-fill,
+.ql-snow .ql-toolbar button:hover .ql-fill,
+.ql-snow.ql-toolbar button:focus .ql-fill,
+.ql-snow .ql-toolbar button:focus .ql-fill,
+.ql-snow.ql-toolbar button.ql-active .ql-fill,
+.ql-snow .ql-toolbar button.ql-active .ql-fill,
+.ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill,
+.ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill,
+.ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill,
+.ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill,
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill,
+.ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill,
+.ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill,
+.ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill,
+.ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill,
+.ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill,
+.ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill,
+.ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
+.ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,
+.ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
+.ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
+  fill: var(--color-primary-hover) !important;
+  transition: var(--transition-default);
+}
+
+/* ==========================================================================
+   Form Elements
+   ========================================================================== */
+textarea {
+  min-height: 250px;
+  resize: vertical;
+}
+
+input {
+  font-family: var(--font-yahoo-sans-cr4);
+}
+
+input:disabled {
+  background-color: var(--color-bg);
+}
+
+.form-group {
+  margin-bottom: var(--space-md);
+  text-align: left;
+}
+
+.form-control {
+  width: var(--width-full);
+  border: var(--space-0);
+  font-size: var(--font-size-lg);
+  border-bottom: var(--border-width) var(--border-style) var(--color-border-input);
+}
+
+.form-control.active {
+  border-bottom: var(--border-width) var(--border-style) var(--color-primary);
+  transition: var(--transition-default);
+}
+
+.error {
+  margin-bottom: var(--space-xs);
+  color: var(--color-error);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+button {
+  width: var(--width-full);
+  margin-top: 25px;
+  padding: var(--space-sm);
+  border: var(--border-default);
+  border-radius: var(--radius-pill);
+  color: var(--color-surface);
+  background-color: var(--color-primary);
+  font-family: var(--font-yahoo-sans);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  cursor: var(--cursor-pointer);
+}
+
+.button-primary {
+  width: var(--width-full);
+  padding: var(--space-sm);
+  border: var(--border-default);
+  border-radius: var(--radius-pill);
+  color: var(--color-surface);
+  background-color: var(--color-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: var(--cursor-pointer);
+}
+
+.button-dash {
+  width: var(--width-button-compact);
+  margin-top: var(--space-0);
+}
+
+.button-register {
+  display: revert;
+  padding: var(--space-sm) 77px;
+  border: var(--border-width) var(--border-style) var(--color-primary);
+  border-radius: var(--radius-pill);
+  color: var(--color-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: var(--cursor-pointer);
+}
+
+.button-register:hover {
+  border: var(--border-width) var(--border-style) var(--color-primary-hover);
+  transition: var(--transition-default);
+}
+
+.button-register:active,
+.button-register:focus {
+  border: var(--border-width) var(--border-style) var(--color-primary-active);
+  transition: var(--transition-default);
+}
+
+.button-social {
+  display: var(--display-flex);
+  align-items: var(--align-center);
+  justify-content: var(--justify-center);
+  gap: 8px;
+  height: 24px;
+  margin-top: var(--space-md);
+  padding: var(--space-xs) var(--space-0);
+  border: var(--border-width) var(--border-style) var(--color-border-social);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  cursor: var(--cursor-pointer);
+}
+
+.button-social:hover {
+  border: var(--border-width) var(--border-style) var(--color-text-secondary);
+  color: var(--color-text-secondary);
+}
+
+.button-emoji {
+  width: 50px;
+  margin-left: var(--space-md);
+  padding: var(--space-0);
+  border: var(--border-none);
+  color: var(--color-primary);
+  background-color: transparent;
+  font-size: var(--font-size-2xl);
+}
+
+.button-emoji:active,
+.button-emoji:focus {
+  color: var(--color-primary-active);
+  transition: var(--transition-default);
+}
+
+.button-logout {
+  text-align: var(--text-align-center);
+  line-height: var(--line-height-base);
+}
+
+.button-send {
+  width: var(--width-button-compact);
+  margin-top: 25px;
+  padding: var(--space-sm);
+  border: var(--border-default);
+  border-radius: var(--radius-pill);
+  color: var(--color-surface);
+  background-color: var(--color-primary);
+  font-family: var(--font-yahoo-sans);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  cursor: var(--cursor-pointer);
+}
+
+.button-email-view {
+  width: var(--width-button-compact);
+  margin-top: var(--space-0);
+  margin-left: var(--margin-auto);
+}
+
+.button-email-archieve {
+  width: var(--width-button-compact);
+  margin-top: var(--space-0);
+  margin-left: var(--space-xs);
+}
+
+/* Shared hover / active states for primary-colored buttons */
+.button-send:hover,
+.button-dash:hover,
+#replyButton:hover,
+.button-primary:hover,
+.button-email-view:hover,
+.button-email-archieve:hover {
+  background-color: var(--color-primary-hover);
+  transition: var(--transition-default);
+}
+
+.button-dash:active,
+.button-send:active,
+#replyButton:active,
+.button-primary:active,
+.button-email-view:active,
+.button-email-archieve:active,
+.button-send:focus,
+.button-dash:focus,
+.button-primary:focus,
+.button-email-view:focus,
+.button-email-archieve:focus {
+  background-color: var(--color-primary-active);
+  transition: var(--transition-default);
+}
+
+/* ==========================================================================
+   Login / Register
+   ========================================================================== */
+.login-text {
+  display: var(--display-block);
+  width: 630px;
+  padding: 75px var(--space-md) 50px 50px;
+  font-family: var(--font-yahoo-sans);
+}
+
+.login-label {
+  position: var(--position-relative);
+  top: var(--space-md);
+  color: var(--color-text-muted);
+  font-size: 1em;
+  font-weight: var(--font-weight-normal);
+  cursor: var(--cursor-text);
+  transition: var(--transition-fast);
+}
+
+.login-label.active {
+  top: var(--space-0);
+  color: var(--color-text-heading);
+  font-size: var(--font-size-2xs);
+}
+
+.container-login {
+  top: var(--position-edge-0);
+  left: var(--position-edge-0);
+  right: var(--position-edge-0);
+  bottom: var(--position-edge-0);
+  display: var(--display-flex);
+  flex-direction: column;
+  align-content: var(--align-center);
+  width: 300px;
+  margin-top: var(--space-xs);
+  padding: var(--space-lg);
+  text-align: var(--text-align-center);
+  background-color: var(--color-surface);
+  border-top: var(--border-width) var(--border-style) var(--color-border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.container-register {
+  display: var(--display-flex);
+  justify-content: var(--justify-center);
+  background-color: var(--color-bg);
+}
+
+/* ==========================================================================
+   Views / Cards
+   ========================================================================== */
+.container-view,
+#compose-view {
+  margin: var(--space-xs);
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border-top: var(--border-width) var(--border-style) var(--color-border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+#emailBody {
+  min-height: 350px;
+  padding: var(--space-md);
+  border: var(--border-width) var(--border-style) var(--color-border-input);
+  border-radius: var(--radius-sm);
+  display: var(--display-flex);
+  flex-direction: column;
+}
+
+#replyButton {
+  width: var(--width-button-compact);
+}
+
+#emailImage {
+  margin-block: var(--font-size-xs);
+  max-width: 500px;
+}
+
+/* ==========================================================================
+   Email List
+   ========================================================================== */
+.email {
+  display: var(--display-flex);
+  align-items: var(--align-center);
+  gap: var(--space-xs);
+  margin: var(--space-0);
+  margin-bottom: var(--space-xs);
+  padding: var(--space-xs);
+  padding-left: 25px;
+  overflow: hidden;
+  text-align: left;
+  line-height: var(--line-height-loose);
+  border: var(--border-width) var(--border-style) var(--color-bg);
+  border-radius: var(--radius-sm);
+}
+
+.read {
+  background-color: var(--color-bg);
+}
+
+.unread {
+  background-color: var(--color-surface);
+}
+
+.archive {
+  margin-right: var(--space-xs);
+}
+
+/* ==========================================================================
+   Quill Rich Text Editor
+   ========================================================================== */
+.ql-editor {
+  height: 350px !important;
+  font-family: var(--font-yahoo-sans-cr4);
+}
+
+.ql-toolbar.ql-snow {
+  display: var(--display-flex);
+  align-items: end;
+  height: 40px;
+  margin-top: var(--space-xs);
+  font-family: var(--font-yahoo-sans-cr4);
+}
+
+/* ==========================================================================
+   GitHub Corner Badge
+   ========================================================================== */
+.github-box {
+  position: var(--position-fixed);
+  right: var(--position-edge-0);
+  bottom: var(--position-edge-0);
+  z-index: 2;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.github-box div,
+.github-box div a {
+  display: var(--display-flex);
+  flex-direction: column;
+  align-items: var(--align-center);
+}
+
+.github-box div {
+  position: var(--position-absolute);
+  top: var(--position-edge-0);
+  right: var(--position-edge-0);
+  z-index: 1;
+  display: var(--display-flex);
+  justify-content: flex-end;
+  width: var(--width-full);
+  height: var(--height-full);
+  transform: rotate(-45deg);
+}
+
+.github-box:after {
+  content: "";
+  display: var(--display-block);
+  position: var(--position-absolute);
+  left: var(--position-edge-0);
+  right: var(--position-edge-0);
+  bottom: var(--position-edge-0);
+  z-index: 0;
+  border-top: 200px solid transparent;
+  border-left: 200px solid transparent;
+  border-bottom: 200px solid var(--color-github-bg);
+}
+
+.github-box div a,
+.github-box div p {
+  margin: 0 0 -12.8px;
+  padding: 3px 19px 25px 19px;
+  color: var(--color-github-text);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-mono);
+  text-decoration: var(--text-decoration-none);
+  -webkit-text-decoration: var(--text-decoration-none);
+  transition: var(--transition-color);
+}
+
+.github-box div a:focus,
+.github-box div a:hover,
+.github-box div p:focus,
+.github-box div p:hover {
+  color: var(--color-github-hover) !important;
+}
+
+.github-icon {
+  width: 35px;
+  height: 35px;
+  fill: currentColor;
+}

@@ -1,0 +1,38 @@
+{% extends "encyclopedia/layout.html" %}
+<!-- This template extends the base layout.html file from the "encyclopedia" app -->
+
+{% block title %}
+     - Edit page
+{% endblock %}
+<!-- Define the title of the page as "Encyclopedia" within the title block -->
+
+{% block body %}
+    <div class="title">
+        <h1>Edit Page</h1>
+        <!-- Header section for the "Edit Page" view -->
+    </div>
+
+    <form method="post">
+    <!-- Form to submit updated content for the encyclopedia entry. The "method" is POST for submitting data securely. -->
+
+        <div class="form-group">
+            <label for="title">Entry Title:</label>
+            <!-- Label for the title input field -->
+            <input type="text" name="title" id="title" class="form-control" value="{{ title|escape }}" readonly>
+            <!-- Input field for the entry title. The "readonly" attribute prevents the user from modifying the title. -->
+        </div>
+
+        <div class="form-group">
+            <label for="content">Entry Content:</label>
+            <!-- Label for the content text area -->
+            <textarea class="form-control" name="content" rows="15" id="content">{{content}}</textarea>
+            <!-- Text area to edit the content of the encyclopedia entry. The initial content is populated using the "content" variable. -->
+        </div>
+
+        {% csrf_token %}
+        <!-- Django's CSRF token to protect the form against Cross-Site Request Forgery attacks. -->
+
+        <button>Save</button>
+        <!-- Submit button to save the changes made to the entry content -->
+    </form>
+{% endblock %}

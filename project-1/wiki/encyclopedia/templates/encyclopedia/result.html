@@ -1,0 +1,17 @@
+{% extends "encyclopedia/layout.html" %}
+<!-- Extend the base layout template from the encyclopedia app -->
+
+{% block title %}
+    - Page Not Found
+{% endblock %}
+<!-- Define the title of the page as "Encyclopedia" within the title block -->
+
+{% block body %}
+    <div class="title">
+        <h1>{{ title|default:"Page Not Found" }}</h1>
+        <!-- Display the dynamic title passed from the view (e.g., "Page Not Found" or other messages) -->
+    </div>
+
+    <p>{{ message|default:"No results found. Click <a href='/'>here</a> to go back." }}</p>
+    <!-- Display a message when no results are found. The link allows the user to return to the homepage by clicking "here" -->
+{% endblock %}

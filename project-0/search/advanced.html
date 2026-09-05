@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Specifies the character encoding for the document -->
+        <meta charset="UTF-8">
+        <!-- Sets the viewport for responsive design on mobile devices -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Defines the title of the webpage -->
+        <title>Advanced Search</title>
+        <!-- Links the favicon for the webpage -->
+        <link rel="icon" href="./static/search/favicon.ico" type="image/x-icon" sizes="256x256">
+        <!-- Links an external stylesheet for styling -->
+        <link rel="stylesheet" href="./static/search/styles.css">
+    </head>
+    <body>
+        <header>
+            <!-- Navigation link to the main search page -->
+            <div class="header-link">
+                <a href="index.html">Search</a>
+            </div>
+            <!-- Navigation link to the image search page -->
+            <div class="header-link">
+                <a href="images.html">Image Search</a>
+            </div>
+            <!-- Navigation link to the advanced search page -->
+            <div class="header-link">
+                <a href="advanced.html">Advanced Search</a>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Logo section -->
+            <div class="logo-section">
+                <div class="logo-container">
+                    <img class="logo-image" src="./static/search/logo.svg" alt="Logo" height="92">
+                </div>
+            </div>
+            <div class="form-section">
+                <div class="search-wrapper">
+                    <!-- Form for advanced search functionality -->
+                    <form action="https://google.com/search" method="GET">
+                        <!-- Force Google interface language to English -->
+                        <input type="hidden" name="hl" value="en">
+
+                        <!-- Field for finding pages containing all specified words -->
+                        <label for="all">Find pages with… all these words:</label>
+                        <div class="search-input-wrapper">
+                            <input type="text" id="all" name="as_q" style="padding-left: 20px; padding-right: 20px;">
+                        </div>
+                        <!-- Field for finding pages with an exact phrase -->
+                        <label for="exact">Find pages with… this exact word or phrase:</label>
+                        <div class="search-input-wrapper">
+                            <input type="text" id="exact" name="as_epq" style="padding-left: 20px; padding-right: 20px;">
+                        </div>
+                        <!-- Field for finding pages containing any of the specified words -->
+                        <label for="any">Find pages with… any of these words:</label>
+                        <div class="search-input-wrapper">
+                            <input type="text" id="any" name="as_oq" style="padding-left: 20px; padding-right: 20px;">
+                        </div>
+                        <!-- Field for excluding pages with certain words -->
+                        <label for="none">Find pages with… none of these words:</label>
+                        <div class="search-input-wrapper">
+                            <input type="text" id="none" name="as_eq" style="padding-left: 20px; padding-right: 20px;">
+                        </div>
+                        <!-- Submit button to perform advanced search -->
+                        <div class="search-button-group">
+                            <input type="submit" value="Advanced Search">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- label with a link to the GitHub repository -->
+        <aside class="github-box">
+            <div>
+                <a href="https://github.com/realNormanik/harvard-cs50w/tree/main/project-0/search" target="_blank">
+                    <p>View on GitHub</p>
+                    <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" aria-hidden="true">
+                        <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path>
+                    </svg>
+                </a>
+            </div>
+        </aside>
+
+        <footer>
+            <!-- Displays the user's country or location -->
+            <div class="country" id="country">
+                Loading location...
+            </div>
+            <div class="footer-element">
+                <!-- Footer links for informational and business-related resources -->
+                <div class="footer-box">
+                    <a class="footer-link" href="https://about.google/?utm_source=google-PL&utm_medium=referral&utm_campaign=hp-footer&fg=1">About</a>
+                    <a class="footer-link" href="https://www.google.com/intl/en_pl/ads/?subid=ww-ww-et-g-awa-a-g_hpafoot1_1!o2&utm_source=google.com&utm_medium=referral&utm_campaign=google_hpafooter&fg=1">Advertising</a>
+                    <a class="footer-link" href="https://www.google.com/services/?subid=ww-ww-et-g-awa-a-g_hpbfoot1_1!o2&utm_source=google.com&utm_medium=referral&utm_campaign=google_hpbfooter&fg=1">Business</a>
+                    <a class="footer-link" href="https://google.com/search/howsearchworks/?fg=1">How Search works</a>
+                </div>
+                <!-- Footer links for privacy and terms, with a theme toggle button -->
+                <div class="footer-box">
+                    <a class="footer-link" href="https://policies.google.com/privacy?hl=en-PL&fg=1">Privacy</a>
+                    <a class="footer-link" href="https://policies.google.com/terms?hl=en-PL&fg=1">Terms</a>
+                    <div class="footer-link" id="theme-toggle">Theme: light</div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Links the external JavaScript file and ensures it loads after the page -->
+        <script src="./static/search/script.js" as="script" defer></script>
+        <!-- Simple Keyboard JS -->
+        <script src="https://cdn.jsdelivr.net/npm/simple-keyboard/build/index.js"></script>
+    </body>
+</html>

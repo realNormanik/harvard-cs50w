@@ -1,0 +1,126 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block title %}
+    @{{ viewed_profile }}
+{% endblock %}
+
+{% block body %}
+    <div class="profile">
+        <div class="profile-container">
+            {% if viewed_profile.profile_picture %}
+                <img class="profile-picture" src="{{ viewed_profile.profile_picture }}" alt="Profile Picture">
+            {% else %}
+                <img class="profile-picture" src="{% static '/network/8DrRbUU8kY.webp' %}" alt="Default Profile Picture">
+            {% endif %}
+
+            <h2 style="margin: 0;" data-id="{{viewed_profile_id}}">@{{ viewed_profile }}</h2>
+        </div>
+
+        <!-- Display number of users following and followed by -->
+        <div class="profile-box">
+            <div>
+                <div style="display: flex;">
+                    <p class="follow-number">{{ following }}</p> <p class="text-profile">Following</p> <p class="follow-number">{{ followedBy }}</p> <p class="text-profile">Followers</p>
+                </div>
+                <span class="everywhere"><i class="fa-solid fa-location-dot"></i> everywhere</span>
+            </div>
+
+            {% if user.id == viewed_profile_id %}
+                <!-- Button to edit profile -->
+                <button id="edit-profile-button" class="button-edit-profile">Edit Profile</button>
+            {% else %}
+                {% if following_status %}
+                    <button type="button" class="button-unfollow">Unfollow</button>
+                {% else %}
+                    <button type="button" class="button-follow">Follow</button>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Show paginated posts -->
+        {% for tweet in page_obj %}
+            <div class="post">
+                <div class="card" data-id="{{tweet.id}}">
+                    <div class="card-body rounded">
+                        <div class="card-info">
+                            <a class="card-title" href="{% url 'profile' user_id=tweet.author.id%}"><strong>@{{ tweet.author }}</strong></a>
+                            <i class="fa-solid fa-square-check" id="check"></i>
+                            <h6 class="card-subtitle">{{tweet.posted}}</h6>
+                        </div>
+                        
+                        <p class="card-text" id="tweetText">{{tweet.tweetText}}</p>
+
+                        {% if tweet.tweetImage %}
+                            <img class="card-image" src="{{ tweet.tweetImage }}" alt="Tweet image">
+                        {% endif %}
+
+                        <!-- If user likes post, show like button  -->
+                        {% if user.username in tweet.like.all|stringformat:'s' %}
+                            <button class="button-like" id="foo-like">
+                                <i class="fa-solid fa-heart"></i>&nbsp;<span id="number">{{ tweet.like.all.count }}</span>
+                            </button> 
+                        {% else %}
+                            <button class="button-secondary" id="foo">
+                                <i class="fa-regular fa-heart"></i>&nbsp;<span id="number">{{ tweet.like.all.count }}</span>
+                            </button> 
+                        {% endif %}
+
+                        <!-- If user is author of post, show edit button -->
+                        {% if user.username == tweet.author|stringformat:'s' %}
+                            <button class="button-edit" id="edit">
+                                <i class="fa-regular fa-pen-to-square"></i>&nbsp;<span>Edit</span>
+                            </button>
+
+                            <button class="button-delete" data-id="{{ tweet.id }}">
+                                <i class="fa-regular fa-trash-can"></i>&nbsp;<span>Delete</span>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <br>
+
+        <!-- Pagination -->
+        <nav aria-label="Page">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link disabled" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+                    </li>
+                {% endif %}
+                    
+                {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ i }}</span>
+                        </li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+        
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link disabled" href="#" tabindex="-1" aria-disabled="True">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <!-- Popup modals for uploading profile picture -->
+        {% include "network/popup/edit.html" %}
+    </div>
+{% endblock %}

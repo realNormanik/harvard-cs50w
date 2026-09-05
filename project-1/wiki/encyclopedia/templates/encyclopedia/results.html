@@ -1,0 +1,30 @@
+{% extends "encyclopedia/layout.html" %}
+<!-- Extend the base layout template from the encyclopedia app -->
+
+{% block body %}
+    <div class="title">
+        <h1>Search Results</h1>
+        <!-- Display the heading for search results page -->
+    </div>
+
+    {% if results|length > 0 %}
+    <!-- Check if there are any results -->
+
+        <ul>
+        <!-- Start an unordered list to display results -->
+            {% for page in results %}
+            <!-- Loop through each result in the 'results' list -->
+
+                <li>
+                    <a href="/wiki/{{ page }}">{{ page }}</a>
+                </li>
+                <!-- For each result, create a list item with a link to the page -->
+            {% endfor %}
+        </ul>
+    {% else %}
+    <!-- If there are no results -->
+
+        <p>No results found. Click <a href="/"> here</a> to go back.</p>
+        <!-- Display a message when no results are found with a link to go back to the homepage -->
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,1059 @@
+/* ==========================================================================
+   FONTS
+   ========================================================================== */
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/static/crm/Inter.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    display: swap;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('/static/crm/SpaceGrotesk-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('/static/crm/JetBrainsMono-Regular.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    display: swap;
+}
+
+
+/* ==========================================================================
+   DESIGN TOKENS
+   ========================================================================== */
+
+:root,
+[data-theme="light"] {
+    /* Brand / gradient (from the LeadFlow logo) */
+    --accent-pink: #AF40FF;
+    --accent-blue: #5b42f3;
+    --accent-gradient: linear-gradient(144deg, #AF40FF, #5b42f3 50%, #00ddeb);
+
+    --positive: #14D8B4;
+    --warning: #FFB020;
+    --danger: #FF4D6D;
+
+    /* Priority variable names kept for backward compatibility (used in existing badges) */
+    --priority-low: var(--text-faint);
+    --priority-medium: var(--warning);
+    --priority-high: var(--danger);
+
+    /* Background & glass - LIGHT MODE */
+    --bg: #EEF1FB;
+    --bg-blob-1: rgba(255, 81, 227, .22);
+    --bg-blob-2: rgba(27, 77, 255, .20);
+    --bg-blob-3: rgba(20, 216, 180, .16);
+
+    --surface: rgba(255, 255, 255, .55);
+    --surface-strong: rgba(255, 255, 255, .78);
+    --surface-hover: rgba(255, 255, 255, .92);
+    --border: rgba(23, 26, 46, .10);
+    --border-strong: rgba(23, 26, 46, .18);
+
+    --text: #171A2E;
+    --text-muted: #5B6088;
+    --text-faint: #8992BC;
+
+    --shadow-glass: 0 8px 32px rgba(31, 41, 102, .10);
+    --sheen: rgba(255, 255, 255, .55);
+
+    /* Backward compatibility with older variable names */
+    --column-bg: rgba(255, 255, 255, .35);
+    --card-bg: var(--surface);
+    --card-shadow: var(--shadow-glass);
+    --card-shadow-hover: 0 14px 34px rgba(31, 41, 102, .16);
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --ease: cubic-bezier(.16, .84, .44, 1);
+}
+
+[data-theme="dark"] {
+    --bg: #0A0D1B;
+    --bg-blob-1: rgba(255, 81, 227, .30);
+    --bg-blob-2: rgba(27, 77, 255, .35);
+    --bg-blob-3: rgba(20, 216, 180, .14);
+
+    --surface: rgba(255, 255, 255, .055);
+    --surface-strong: rgba(255, 255, 255, .09);
+    --surface-hover: rgba(255, 255, 255, .12);
+    --border: rgba(255, 255, 255, .14);
+    --border-strong: rgba(255, 255, 255, .24);
+
+    --text: #F1F3FC;
+    --text-muted: #9AA0C3;
+    --text-faint: #6870A0;
+
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, .35);
+    --sheen: rgba(255, 255, 255, .10);
+
+    --column-bg: rgba(255, 255, 255, .04);
+    --card-bg: var(--surface);
+    --card-shadow: var(--shadow-glass);
+    --card-shadow-hover: 0 14px 34px rgba(0, 0, 0, .45);
+}
+
+
+/* ==========================================================================
+   BASE / GLOBAL STYLES
+   ========================================================================== */
+
+* {
+    transition: background-color .35s var(--ease),
+                border-color .35s var(--ease),
+                color .35s var(--ease);
+}
+
+html {
+    min-height: 100%;
+    min-height: 100dvh;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+}
+
+a { color: var(--accent-blue); }
+
+::selection {
+    background: var(--accent-pink);
+    color: #fff;
+}
+
+option {
+    background-color: var(--bg);
+}
+
+.subtitle {
+    color: var(--text-muted) !important;
+}
+
+
+/* ==========================================================================
+   GLASSMORPHISM - SHARED GLASS EFFECT
+   (applied to all Bootstrap surfaces: navbar, card, modal, list-group,
+   table, form controls - so everything matches the design mockup)
+   ========================================================================== */
+
+.navbar,
+.card,
+.modal-content,
+.list-group-item,
+.table-responsive,
+.form-control,
+.form-select,
+.pipeline-column,
+.pipeline-card,
+#stageChart {
+    background-color: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    color: var(--text) !important;
+}
+
+.card {
+    border-radius: var(--radius-md) !important;
+}
+
+
+/* ==========================================================================
+   NAVBAR
+   ========================================================================== */
+
+.navbar {
+    border-radius: var(--radius-lg) !important;
+    margin: 16px;
+    padding: 10px 18px !important;
+}
+
+.navbar-brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.navbar-dark .navbar-nav .nav-link,
+.navbar-text {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link:active {
+    color: var(--text) !important;
+}
+
+.navbar-control {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.btn-navbar {
+    background-color: transparent;
+    border: none;
+    display: none;
+}
+
+/* From Uiverse.io by Cevorob */
+.burger {
+    position: relative;
+    width: 40px;
+    height: 30px;
+    background: transparent;
+    cursor: pointer;
+    display: block;
+}
+
+.burger input {
+    display: none;
+}
+
+.burger span {
+    display: block;
+    position: absolute;
+    height: 4px;
+    width: 100%;
+    background: var(--text-muted);
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+}
+
+.burger span:nth-of-type(1) {
+    top: 0px;
+    transform-origin: left center;
+}
+
+.burger span:nth-of-type(2) {
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: left center;
+}
+
+.burger span:nth-of-type(3) {
+    top: 100%;
+    transform-origin: left center;
+    transform: translateY(-100%);
+}
+
+.burger input:checked ~ span:nth-of-type(1) {
+    transform: rotate(45deg);
+    top: 0px;
+    left: 5px;
+}
+
+.burger input:checked ~ span:nth-of-type(2) {
+    width: 0%;
+    opacity: 0;
+}
+
+.burger input:checked ~ span:nth-of-type(3) {
+    transform: rotate(-45deg);
+    top: 28px;
+    left: 5px;
+}
+
+.logout-box {
+    display: flex;
+}
+
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.btn {
+    border-radius: 999px !important;
+    font-weight: 600;
+    font-size: 1.25em;
+    padding: 9px 18px;
+    transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+    font-family: var(--font-display);
+}
+
+.btn-primary {
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding: 0.625rem 1rem;
+    color: rgb(242 242 242);
+    background-color: rgb(79 70 229);
+    background: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+    font-weight: 600;
+    border-radius: 0.5rem;
+    border-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.35s linear;
+}
+
+.btn-primary:hover {
+    box-shadow: inset 0 5px 25px 0 #af40ff,
+                inset 0 10px 15px 0px #5b42f3,
+                inset 0 5px 25px 0px #00ddeb;
+}
+
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-secondary {
+    font-size: 1rem;
+    background-color: var(--surface-strong) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover,
+.btn-secondary:hover {
+    background-color: var(--surface-hover) !important;
+    color: var(--text) !important;
+}
+
+.btn-success {
+    font-size: 1rem;
+    background: rgba(20, 216, 180, .15) !important;
+    border: 1px solid var(--positive) !important;
+    color: var(--positive) !important;
+    box-shadow: none !important;
+    transition: .4s;
+}
+
+.btn-success:hover {
+    background-color: var(--positive) !important;
+    transform: none !important;
+    color: #fff !important;
+}
+
+.btn-danger {
+    font-size: 1rem;
+    background-color: rgba(255, 77, 109, .15) !important;
+    border: 1px solid var(--danger) !important;
+    color: var(--danger) !important;
+    transition: .4s;
+}
+
+.btn-danger:hover {
+    background-color: var(--danger) !important;
+    color: #fff !important;
+}
+
+.btn-edit {
+    font-size: 1rem;
+    background-color: rgba(255, 176, 32, .18) !important;
+    border: 1px solid var(--warning) !important;
+    color: var(--warning) !important;
+    transition: .4s;
+}
+
+.btn-edit:hover {
+    background-color: var(--warning) !important;
+    color: #fff !important;
+}
+
+.btn-search {
+    padding: 11px;
+    display: flex;
+    align-items: center;
+}
+
+
+/* ==========================================================================
+   FORMS
+   ========================================================================== */
+
+.form-control,
+.form-select,
+textarea {
+    border-radius: var(--radius-sm) !important;
+    color: var(--text) !important;
+    font-family: var(--font-body);
+    font-size: 1.25em;
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--accent-pink) !important;
+    box-shadow: 0 0 0 3px rgba(255, 81, 227, .15) !important;
+    background-color: var(--surface-strong) !important;
+}
+
+label,
+.form-label {
+    font-family: var(--font-mono);
+    font-size: .78em;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: .04em;
+}
+
+
+/* ==========================================================================
+   TABLES / LIST GROUPS (clients, activities)
+   ========================================================================== */
+
+.table-responsive {
+    border-radius: var(--radius-md) !important;
+    padding: 4px;
+}
+
+.table {
+    color: var(--text);
+    margin-bottom: 0;
+}
+
+.table thead th {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    letter-spacing: .06em;
+    color: var(--text-faint);
+    border-bottom: 1px solid var(--border) !important;
+    background: transparent;
+}
+
+.table td {
+    color: var(--text);
+    background-color: transparent;
+    border-color: var(--border) !important;
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--surface-hover) !important;
+}
+
+.list-group-item {
+    border-radius: var(--radius-sm) !important;
+    margin-bottom: 8px;
+}
+
+.list-group-item:last-child {
+    margin-bottom: 0;
+}
+
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+
+.modal-backdrop {
+    background-color: rgba(5, 7, 16, .5) !important;
+}
+
+.modal-content {
+    border-radius: var(--radius-lg) !important;
+    padding: 8px;
+}
+
+.modal-header,
+.modal-footer {
+    border-color: var(--border) !important;
+}
+
+.modal-title {
+    font-family: var(--font-display);
+}
+
+.btn-close {
+    filter: var(--btn-close-filter, none);
+}
+
+[data-theme="dark"] .btn-close {
+    filter: invert(1) grayscale(100%);
+}
+
+
+/* ==========================================================================
+   DASHBOARD - STAT TILES
+   ========================================================================== */
+
+.card.text-center h6 {
+    font-family: var(--font-body);
+    font-size: .72rem;
+    letter-spacing: .08em;
+    color: var(--text-faint);
+    font-weight: 600;
+}
+
+.card.text-center h3 {
+    font-size: 1.7rem;
+}
+
+.badge-success {
+    background: rgba(20, 216, 180, .15) !important;
+    border: 1px solid var(--positive) !important;
+    color: var(--positive) !important;
+}
+
+
+/* ==========================================================================
+   CHARTS
+   ========================================================================== */
+
+#stageChart {
+    border-radius: var(--radius-md) !important;
+    padding: 16px;
+}
+
+.chart-container {
+    position: relative;
+    height: 450px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
+}
+
+
+/* ==========================================================================
+   PIPELINE - KANBAN COLUMN VIEW (DRAG & DROP)
+   ========================================================================== */
+
+.pipeline-board {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    align-items: flex-start;
+}
+
+.pipeline-column {
+    border-radius: var(--radius-lg);
+    min-width: 280px;
+    max-width: 280px;
+    flex: 0 0 auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 180px);
+}
+
+.pipeline-column-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: .9rem;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+}
+
+.pipeline-cards {
+    flex: 1;
+    overflow: visible;
+    min-height: 60px;
+}
+
+/* Column highlight while a card is being dragged over it */
+.pipeline-cards.drag-over {
+    background-color: rgba(255, 81, 227, .08);
+    border-radius: var(--radius-md);
+    outline: 2px dashed var(--accent-pink);
+}
+
+.pipeline-card {
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    cursor: grab;
+    transition: box-shadow .15s var(--ease),
+                transform .15s var(--ease),
+                border-color .15s var(--ease);
+    font-family: var(--font-body);
+}
+
+.pipeline-card:hover {
+    box-shadow: var(--card-shadow-hover), inset 0 1px 0 var(--sheen);
+    transform: translateY(-2px);
+    border-color: var(--border-strong) !important;
+}
+
+.pipeline-card:active {
+    cursor: grabbing;
+}
+
+.pipeline-card.dragging {
+    opacity: 0.4;
+}
+
+.pipeline-card.overdue {
+    box-shadow: var(--shadow-glass), inset 3px 0 0 var(--danger);
+}
+
+.pipeline-card.completed {
+    box-shadow: var(--shadow-glass), inset 3px 0 0 var(--positive);
+}
+
+/* Placeholder showing where the card will be dropped */
+.pipeline-card-placeholder {
+    border: 2px dashed var(--accent-pink);
+    border-radius: var(--radius-md);
+    height: 50px;
+    margin-bottom: 10px;
+    background-color: rgba(255, 81, 227, 0.08);
+}
+
+.pipeline-card .move-buttons button {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+/* Stage list (pipeline settings) drag & drop */
+.stage-item {
+    cursor: grab;
+}
+
+.stage-item.dragging {
+    opacity: 0.5;
+}
+
+.stage-drag-handle {
+    cursor: grab;
+    color: #adb5bd;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.stage-move-buttons {
+    display: none;
+    gap: 0.25rem;
+}
+
+
+/* ==========================================================================
+   BADGES - PRIORITY & TAGS
+   ========================================================================== */
+
+.badge.bg-low-priority,
+.badge.bg-medium-priority,
+.badge.bg-high-priority {
+    font-family: var(--font-mono);
+    font-weight: 500 !important;
+    font-size: .85em !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+}
+
+.badge.bg-low-priority {
+    background-color: var(--surface-strong) !important;
+    color: var(--text-muted) !important;
+}
+
+.badge.bg-medium-priority {
+    background-color: rgba(255, 176, 32, .18) !important;
+    color: var(--warning) !important;
+}
+
+.badge.bg-high-priority {
+    background-color: rgba(255, 77, 109, .18) !important;
+    color: var(--danger) !important;
+}
+
+.tag-badge {
+    display: inline-block;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.64rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-top: 6px;
+    margin-right: 4px;
+}
+
+
+/* ==========================================================================
+   ANIMATED CHECKBOX (task completion toggle)
+   ========================================================================== */
+
+.check-container {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.check {
+    cursor: pointer;
+    position: relative;
+    margin: auto;
+    width: 18px;
+    height: 18px;
+    -webkit-tap-highlight-color: transparent;
+    transform: translate3d(0, 0, 0);
+}
+
+.check:before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+    background: rgb(34 50 84 / 10%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.check svg {
+    position: relative;
+    z-index: 1;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: var(--text);
+    stroke-width: 1.5;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.2s ease;
+}
+
+.check svg path {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 0;
+}
+
+.check svg polyline {
+    stroke-dasharray: 22;
+    stroke-dashoffset: 66;
+}
+
+.check:hover:before {
+    opacity: 1;
+}
+
+.check:hover svg {
+    stroke: var(--positive);
+}
+
+.task-checkbox:checked + .check svg {
+    stroke: var(--positive);
+}
+
+.task-checkbox:checked + .check svg path {
+    stroke-dashoffset: 60;
+    transition: all 0.3s linear;
+}
+
+.task-checkbox:checked + .check svg polyline {
+    stroke-dashoffset: 42;
+    transition: all 0.2s linear;
+    transition-delay: 0.15s;
+}
+
+
+/* ==========================================================================
+   THEME PILL TOGGLE (light / dark)
+   Attach to <html data-theme="dark|light">. Wire up with a small JS
+   snippet that sets the attribute on <html> and keeps the choice in a
+   JS variable (no localStorage - see the notes in the artifacts).
+   ========================================================================== */
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px;
+    position: relative;
+}
+
+.theme-toggle button {
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.theme-toggle button.active {
+    color: #fff;
+}
+
+.theme-toggle .knob {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    transition: transform .35s var(--ease);
+    z-index: 1;
+}
+
+[data-theme="light"] .theme-toggle .knob {
+    transform: translateX(37px);
+}
+
+.toggle-box {
+    /* wraps .switch on the login page */
+}
+
+
+/* ==========================================================================
+   LOGIN PAGE - SUN/MOON SWITCH
+   ========================================================================== */
+
+.switch {
+    font-size: 17px;
+    position: relative;
+    display: inline-block;
+    width: 64px;
+    height: 34px;
+    cursor: pointer;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #73C0FC;
+    transition: .4s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    left: 2px;
+    bottom: 2px;
+    z-index: 2;
+    background-color: #e8e8e8;
+    transition: .4s;
+}
+
+.sun svg {
+    position: absolute;
+    top: 6px;
+    left: 36px;
+    z-index: 1;
+    width: 24px;
+    height: 24px;
+}
+
+.moon svg {
+    fill: #73C0FC;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+    width: 24px;
+    height: 24px;
+}
+
+.sun svg {
+    animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+}
+
+.moon svg {
+    animation: tilt 5s linear infinite;
+}
+
+@keyframes tilt {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.input:checked + .slider {
+    background-color: #183153;
+}
+
+.input:focus + .slider {
+    box-shadow: 0 0 1px #183153;
+}
+
+.input:checked + .slider:before {
+    transform: translateX(30px);
+}
+
+.switch-box {
+    display: flex;
+    justify-content: right;
+}
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    font-size: 2em;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+
+/* ==========================================================================
+   MISC ICONS
+   ========================================================================== */
+
+.telescope-container {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+button:hover .telescope {
+    transform: rotate(-35deg);
+    transition: all 1s;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE (MOBILE)
+   ========================================================================== */
+
+/* On narrow screens, replace the horizontal column scroll with a vertical
+   stack, and swap card drag & drop for "move forward" buttons. */
+@media (max-width: 768px) {
+    .btn-navbar {
+        display: flex;
+    }
+
+    .pipeline-board {
+        flex-direction: column;
+        overflow-x: visible;
+    }
+
+    .pipeline-column {
+        min-width: 100%;
+        max-width: 100%;
+        max-height: none;
+    }
+
+    .pipeline-cards {
+        max-height: 400px;
+    }
+
+    .navbar-nav {
+        margin-top: 8px;
+    }
+
+    .pipeline-card .move-buttons {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .navbar {
+        margin: 10px;
+        border-radius: var(--radius-md) !important;
+    }
+
+    .navbar-control {
+        flex-direction: column;
+    }
+
+    .toggle-box {
+        width: 100%;
+    }
+
+    .logout-box {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    /* Drag & drop is impractical on touch devices - show arrow buttons instead of the handle */
+    .stage-drag-handle {
+        display: none;
+    }
+
+    .stage-move-buttons {
+        display: flex;
+    }
+
+    .modal-footer {
+        flex-wrap: nowrap;
+    }
+}
+
+/* On desktop, hide the "move forward" buttons - drag & drop handles this instead */
+@media (min-width: 769px) {
+    .pipeline-card .move-buttons {
+        display: none;
+    }
+}

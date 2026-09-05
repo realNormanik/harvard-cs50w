@@ -1,0 +1,71 @@
+{% extends "auctions/layout.html" %}
+<!-- Extends the base layout -->
+
+{% block title %}
+    {{ category }}
+{% endblock %}
+<!-- Define the title of the page within the title block -->
+
+{% block body %}
+    <!-- Body content block -->
+    <h2>{{ category }}</h2>
+    <!-- Displays the selected category -->
+
+    <form class="filter-form" action="{% url 'filter' %}">
+        <!-- Form to filter categories -->
+        <input class="form-control product" type="text" name="category" placeholder="Enter a category like food, home, etc..." autofocus>
+        <!-- Input field for category -->
+        <button class="button-filter" type="submit">Filter</button>
+        <!-- Submit button -->
+    </form>
+
+    <div class="products-list">
+        <!-- Container for product listings -->
+        {% if listings %}
+            {% for item in listings %}
+                <!-- Loop through available listings -->
+                <div class="row">
+                    {% if item in user.watchlist.all %}
+                        <!-- Heart icon for items in the watchlist -->
+                        <a class="text-danger" href="{% url 'unwatch' item.id %}">
+                            <i class="fa fa-heart"></i>
+                        </a>
+                    {% else %}
+                        <!-- Heart icon for items not in the watchlist -->
+                        <a class="text-danger" href="{% url 'watch' item.id %}">
+                            <i class="far fa-heart"></i>
+                        </a>
+                    {% endif %}
+                    <a href="{% url 'listing' item.id %}">
+                        <!-- Image link for the product -->
+                        <img class="product-list-image" src="{{ item.image }}" alt="{{ item.title }}">
+                    </a>
+                    <div>
+                        <h3 class="product-list-title">
+                            <a href="{% url 'listing' item.id %}">{{ item.title }}</a>
+                        </h3>
+                        <!-- Product title -->
+                        {% if item.price %}
+                            <div class="product-list-price">${{ item.price }}</div>
+                            <!-- Displays price if available -->
+                        {% else %}
+                            <div class="product-list-price">Not specified</div>
+                            <!-- Placeholder for missing price -->
+                        {% endif %}
+                        {% if item.winner is None %}
+                            <div>Available</div>
+                            <!-- Indicates the product is available -->
+                        {% else %}
+                            <div>Sold</div>
+                            <!-- Indicates the product is sold -->
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <span>No items with such category</span>
+            <!-- Message when no listings match the category -->
+        {% endif %}
+    </div>
+{% endblock %}
+<!-- End body block -->

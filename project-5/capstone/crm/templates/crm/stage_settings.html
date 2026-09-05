@@ -1,0 +1,82 @@
+{% extends "crm/layout.html" %}
+<!-- Extends the base CRM layout -->
+
+{% block title %}Stages - LeadFlow{% endblock %}
+<!-- Sets the page title -->
+
+{% load static %}
+<!-- Load static assets -->
+
+{% block content %}
+<!-- Page header: title and button to open the "new stage" modal -->
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+    <h2 class="mb-0">Stages</h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newStageModal">
+        + Add stage
+    </button>
+</div>
+
+<!-- Draggable list of pipeline stages (drag-and-drop reordering handled by stage.js) -->
+<!-- data-reorder-url: endpoint JS posts the new order to -->
+<!-- data-form-has-errors: lets JS know whether to auto-reopen the modal after a failed submit -->
+<ul class="list-group"
+    id="stageList"
+    data-reorder-url="{% url 'api_stage_reorder' %}"
+    data-form-has-errors="{% if form.errors %}true{% else %}false{% endif %}">
+    {# Render one row per stage, with its current order shown for reference #}
+    {% for stage in stages %}
+    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap gap-2 stage-item"
+        draggable="true"
+        data-stage-id="{{ stage.id }}">
+        <span class="d-flex align-items-center gap-2">
+            <!-- Drag handle icon used for reordering -->
+            <span class="stage-drag-handle" title="Przeciągnij, aby zmienić kolejność">⠿</span>
+            {{ stage.name }}
+        </span>
+        <span class="subtitle stage-position">Order: {{ stage.order }}</span>
+    </li>
+    {% empty %}
+    <!-- Fallback shown when there are no stages yet -->
+    <li class="list-group-item subtitle">No stages.</li>
+    {% endfor %}
+</ul>
+
+<!-- Modal: create a new stage -->
+<div class="modal fade" id="newStageModal" tabindex="-1" aria-labelledby="newStageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newStageModalLabel">New stage</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {# Render each form field with its label and validation errors #}
+                    {% for field in form %}
+                    <div class="mb-2">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="text-danger">
+                            {{ field.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Handles stage drag-and-drop reordering (with mobile fallback) and reopening the modal on validation errors -->
+<script src="{% static 'crm/stage.js' %}"></script>
+{% endblock %}

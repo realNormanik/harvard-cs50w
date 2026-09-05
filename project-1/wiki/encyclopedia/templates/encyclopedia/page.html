@@ -1,0 +1,28 @@
+{% extends "encyclopedia/layout.html" %}
+<!-- Extend the base layout template from the encyclopedia app -->
+
+{% block title %}
+     - {{ entry }}
+{% endblock %}
+<!-- Define the title of the page as "Encyclopedia" within the title block -->
+
+{% block body %}
+    <div class="title">
+        <h1>{{ entry }}</h1>
+        <!-- Display the name of the current encyclopedia entry dynamically -->
+
+        <span>[</span>
+        <!-- Opening bracket for the edit link -->
+
+        <a href='/{{entry}}/edit/' class="button-edit" role="button" aria-label="Edit">Edit Page</a>
+        <!-- Link to edit the current entry. The `href` dynamically uses the entry's name to generate the correct URL -->
+        <!-- `class="button-edit"` applies styling, and `role="button"` ensures accessibility by defining the link's role -->
+        <!-- `aria-label="Edit"` improves accessibility for screen readers -->
+
+        <span>]</span>
+        <!-- Closing bracket for the edit link -->
+    </div>
+
+    {{ content | safe }}
+    <!-- Render the content of the entry. The `| safe` filter allows trusted HTML content to be rendered without escaping -->
+{% endblock %}

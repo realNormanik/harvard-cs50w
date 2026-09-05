@@ -1,0 +1,35 @@
+{% load static %}
+
+<!-- Popup for uploading profile picture -->
+<div id="edit-profile-popup" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="popup-interface" style="width: auto;">
+            <i class="fa-solid fa-xmark" id="close-popup"></i>
+            <h2 style="margin: 0px;">🎨 Edit profile</h2>
+        </div>
+
+        <div class="popup-form" style="text-align: end;">
+            <form method="POST" enctype="multipart/form-data" id="profile-picture-form">
+                {% csrf_token %}
+
+                <div class="profile-picture container">
+                    <!-- Profile Picture -->
+                    {% if viewed_profile.profile_picture %}
+                        <img id="profile-picture-preview" class="profile-picture preview" src="{{ viewed_profile.profile_picture }}" alt="Profile Picture">
+                    {% else %}
+                        <img id="profile-picture-preview" class="profile-picture preview" src="{% static '/network/8DrRbUU8kY.webp' %}" alt="Default Profile Picture">
+                    {% endif %}
+
+                    <!-- Hidden input -->
+                    <input type="file" id="profile-picture-input" name="profile_picture" accept="image/*" required style="display: none;">
+                    <!-- Upload photo icon -->
+                    <label for="profile-picture-input" class="upload-icon">
+                        <i class="fa-regular fa-image"></i>
+                    </label>
+                </div>
+
+                <button class="button-post" type="submit" style="margin-top: 20px;">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

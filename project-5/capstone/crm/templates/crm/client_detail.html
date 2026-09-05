@@ -1,0 +1,141 @@
+{% extends "crm/layout.html" %}
+<!-- Extends the base CRM layout -->
+
+{% block title %}{{ client }} - LeadFlow{% endblock %}
+<!-- Sets the page title to the client's name -->
+
+{% block content %}
+<!-- Main content block -->
+
+<h2>{{ client }}</h2>
+<!-- Client's name as the page heading -->
+
+<p class="subtitle">
+    {{ client.email }} {% if client.phone %} | {{ client.phone }}{% endif %}
+</p>
+<!-- Displays client email, and phone number if available -->
+
+{% if client.notes %}
+    <p><strong>Notes:</strong> {{ client.notes }}</p>
+    <!-- Shows client notes if present -->
+{% endif %}
+
+<hr>
+<!-- Divider between client info and related content -->
+
+<div class="row">
+    <div class="col-12 col-lg-6">
+        <h4>Related deals</h4>
+        <!-- Section listing all deals related to the client -->
+        {% if deals %}
+        <ul class="list-group mb-4">
+            {% for deal in deals %}
+            <!-- Loop through each deal -->
+            <li class="list-group-item d-flex justify-content-between">
+                <span class="d-flex align-items-center gap-2">
+                    {{ deal.title }}
+                    {% if deal.is_closed %}
+                      <span class="badge badge-success">Completed</span>
+                      <!-- Badge shown when the deal is closed -->
+                    {% else %}
+                      <span class="badge bg-low-priority" style="font-family: var(--font-body);">{{ deal.stage.name }}</span>
+                      <!-- Badge showing current stage when the deal is still open -->
+                    {% endif %}
+                </span>
+                <span>${{ deal.value }}</span>
+                <!-- Deal value -->
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="subtitle text-muted">No deals for this customer.</p>
+        <!-- Message shown when there are no deals -->
+        {% endif %}
+    </div>
+
+    <div class="col-12 col-lg-6">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+            <h4 class="mb-0">Interaction History</h4>
+            <!-- Section header for interaction history -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newActivityModal">
+                Add interaction
+                <!-- Button that opens the modal to add a new interaction -->
+            </button>
+        </div>
+        <ul class="list-group mb-3">
+            {% for activity in activities %}
+            <!-- Loop through each interaction/activity -->
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <strong>{{ activity.get_activity_type_display }}</strong>
+                    <!-- Human-readable activity type -->
+                    <small class="subtitle text-muted">{{ activity.created_at|date:"d.m.Y H:i" }}</small>
+                    <!-- Timestamp of the activity -->
+                </div>
+                <div class="subtitle small text-muted">{{ activity.client }}</div>
+                <!-- Associated client for the activity -->
+                <div>{{ activity.content }}</div>
+                <!-- Activity content/description -->
+            </li>
+            {% empty %}
+            <li class="subtitle list-group-item text-muted">No interactions for this customer.</li>
+            <!-- Message shown when there are no activities -->
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Modal: new interaction -->
+<div class="modal fade" id="newActivityModal" tabindex="-1" aria-labelledby="newActivityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                {% csrf_token %}
+                <!-- CSRF protection token -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newActivityModalLabel">Add interaction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <!-- Button to close the modal -->
+                </div>
+                <div class="modal-body">
+                    {% for field in form %}
+                    <!-- Render each form field dynamically -->
+                    <div class="mb-2">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="text-danger">
+                            {{ field.errors }}
+                            <!-- Displays validation errors for the field -->
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <!-- Submit button for the new activity form -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Additional scripts block -->
+{% if form.errors %}
+<script>
+    // If the form contained errors, reopen the modal after the page reloads
+    document.addEventListener("DOMContentLoaded", function () {
+        const modalEl = document.getElementById("newActivityModal");
+
+        if (modalEl) {
+            new bootstrap.Modal(modalEl).show();
+        };
+    });
+</script>
+{% endif %}
+{% endblock %}

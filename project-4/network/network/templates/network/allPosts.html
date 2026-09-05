@@ -1,0 +1,100 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block title %}
+    Home
+{% endblock %}
+<!-- Define the title of the page as "Home" within the title block -->
+
+{% block body %}
+    <!-- Section displaying a header for all posts -->
+    <div style="border-bottom: 1px solid #2F3336;">
+        <h2 style="margin: 15px;">All Posts</h2>
+    </div>
+
+    <div class="container">
+        <!-- Loop through the list of tweets in the page_obj -->
+        {% for tweet in page_obj %}
+            <div class="post">
+                <div class="card" data-id="{{tweet.id}}"> <!-- Container for each tweet, using tweet ID -->
+                    <div class="card-body rounded">
+                        <div class="card-info">
+                            <!-- Display user's profile picture or a default picture if none exists -->
+                            {% if tweet.author.profile_picture %}
+                                <img class="profile-thumbnail" src="{{ tweet.author.profile_picture }}" alt="Profile Picture">
+                            {% else %}
+                                <img class="profile-thumbnail" src="{% static '/network/8DrRbUU8kY.webp' %}" alt="Default Profile Picture">
+                            {% endif %}
+                            
+                            <!-- Display the username of the author with a link to their profile -->
+                            <a class="card-title" href="{% url 'profile' user_id=tweet.author.id%}"><strong>@{{ tweet.author }}</strong></a>
+                            <i class="fa-solid fa-square-check" id="check"></i> <!-- Verified icon -->
+                            <h6 class="card-subtitle">{{tweet.posted}}</h6> <!-- Post date -->
+                        </div>
+                        
+                        <!-- Display the tweet text -->
+                        <p class="card-text" id="tweetText">{{tweet.tweetText}}</p>
+
+                        <!-- Display an image if the tweet has one -->
+                        {% if tweet.tweetImage %}
+                            <img class="card-image" src="{{ tweet.tweetImage }}" alt="Tweet image">
+                        {% endif %}
+
+                        <!-- Like button: Check if the current user liked the post -->
+                        {% if user.username in tweet.like.all|stringformat:'s' %}
+                            <!-- If the user liked the post, show the "liked" button -->
+                            <button class="button-like" id="foo-like">
+                                <i class="fa-solid fa-heart"></i>&nbsp;<span id="number">{{ tweet.like.all.count }}</span>
+                            </button> 
+                        {% else %}
+                            <!-- Otherwise, show the "not liked" button -->
+                            <button class="button-secondary" id="foo">
+                                <i class="fa-regular fa-heart"></i>&nbsp;<span id="number">{{ tweet.like.all.count }}</span>
+                            </button> 
+                        {% endif %}            
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <!-- Pagination controls -->
+        <nav aria-label="Page">
+            <ul class="pagination">
+                <!-- Previous page button -->
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link disabled" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+                    </li>
+                {% endif %}
+                    
+                <!-- Page numbers -->
+                {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <!-- Highlight the current page -->
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ i }}</span>
+                        </li>
+                    {% else %}
+                        <!-- Link to other pages -->
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+        
+                <!-- Next page button -->
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link disabled" href="#" tabindex="-1" aria-disabled="True">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+   </div>
+{% endblock %}

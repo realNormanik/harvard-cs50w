@@ -1,0 +1,49 @@
+{% extends "network/layout.html" %}
+
+{% block title %}
+    New Post
+{% endblock %}
+
+{% block body %}
+    <div style="border-bottom: 1px solid #2F3336;">
+        <h2 style="margin: 15px;">New Post</h2>
+    </div>
+
+    <div class="container">
+        <div class="modal-content">
+            <div class="popup-interface">
+                <h2 style="margin: 0px;">Create Post</h2>
+            </div>
+            <form action="{% url 'tweet' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <textarea class="form-control" id="post-textarea" name="exampleFormControlTextarea1" rows="3" placeholder="😁 - What's up?"></textarea>
+                    
+                    <div id="image-preview-container" style="display: none;">
+                        <img id="image-preview" src="" alt="Image Preview"/>
+                    </div>
+                    
+                    <input type="file" name="image" id="image-input" accept="image/*" style="display: none;">
+                </div>
+                <div class="popup-button-box">
+                    <div>
+                        <button id="emoji-button" class="button emoji" type="button">
+                            <i class="fa-regular fa-face-laugh-wink"></i>
+                        </button>
+
+                        <button id="image-icon-button" class="button image" type="button">
+                            <i class="fa-regular fa-image"></i>
+                        </button>
+                    </div>
+
+                    <input type="submit" class="button-post" value="Post">
+                </div>
+            </form>
+        </div>  
+    </div>
+
+    {% for tweet in tweets %}
+        <li>{{ tweet }}</li>
+    {% endfor %}
+
+{% endblock %}

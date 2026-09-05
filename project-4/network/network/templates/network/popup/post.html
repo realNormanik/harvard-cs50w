@@ -1,0 +1,39 @@
+<!-- Modal for creating a post -->
+<div id="popup-post" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="popup-interface" style="width: auto;">
+            <i class="fa-solid fa-xmark" id="close-popup"></i> <!-- Close modal button -->
+            <h2 style="margin: 0px;">Create Post</h2>
+        </div>
+        <form action="{% url 'tweet' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Textarea for the post -->
+            <div class="form-group">
+                <textarea class="form-control" id="post-textarea" name="exampleFormControlTextarea1" rows="3" placeholder="😁 - What's up?"></textarea>
+                
+                <!-- Image preview container -->
+                <div id="image-preview-container" style="display: none;">
+                    <img id="image-preview" src="" alt="Image Preview"/>
+                </div>
+                
+                <!-- Hidden file input for image upload -->
+                <input type="file" name="image" id="image-input" accept="image/*" style="display: none;">
+            </div>
+            <!-- Buttons for modal functionality -->
+            <div class="popup-button-box">
+                <div>
+                    <button id="emoji-button" class="button emoji" type="button">
+                        <i class="fa-regular fa-face-laugh-wink"></i>
+                    </button>
+
+                    <button id="image-icon-button" class="button image" type="button">
+                        <i class="fa-regular fa-image"></i>
+                    </button>
+                </div>
+
+                <!-- Submit button for posting -->
+                <input type="submit" class="button-post" value="Post">
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+{% extends "auctions/layout.html" %}
+<!-- Extends the base layout -->
+
+{% block title %}
+    Electronics, Cars, Fashion, Collectibles &amp; More
+{% endblock %}
+<!-- Define the title of the page as "Electronics, Cars, Fashion, Collectibles &amp; More" within the title block -->
+
+{% block body %}
+    <!-- Body content block -->
+    <h2>Active Listings</h2>
+    <!-- Heading for the active listings page -->
+
+    <div class="products-list">
+        <!-- Container for product listings -->
+        {% for item in listings %}
+            <div class="row">
+                <!-- Row for each listing -->
+                {% if item in user.watchlist.all %}
+                    <!-- Heart icon for items in the watchlist -->
+                    <a class="text-danger" href="{% url 'unwatch' item.id %}">
+                        <i class="fa fa-heart"></i>
+                    </a>
+                {% else %}
+                    <!-- Heart icon for items not in the watchlist -->
+                    <a class="text-danger" href="{% url 'watch' item.id %}">
+                        <i class="far fa-heart"></i>
+                    </a>
+                {% endif %}
+                <a href="{% url 'listing' item.id %}">
+                    <img class="product-list-image" src="{{ item.image }}" alt="{{ item.title }}">
+                    <!-- Item image with a link to its details -->
+                </a>
+                <div>
+                    <h3 class="product-list-title">
+                        <a href="{% url 'listing' item.id %}">{{ item.title }}</a>
+                        <!-- Item title linked to its details -->
+                    </h3>
+                    {% if item.price %}
+                        <div class="product-list-price">${{ item.price }}</div>
+                        <!-- Display price if available -->
+                    {% else %}
+                        <div class="product-list-price">Not specified</div>
+                        <!-- Display placeholder if price is missing -->
+                    {% endif %}
+                    {% if item.winner is None %}
+                        <div>Available</div>
+                        <!-- Indicate availability -->
+                    {% else %}
+                        <div>Sold</div>
+                        <!-- Indicate that the item is sold -->
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+<!-- End body block -->
