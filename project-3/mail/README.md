@@ -145,7 +145,7 @@ python manage.py collectstatic
 
 ## 🎥 Demo
 You can view a working version of the project here:
-👉 https://search.realnormanik.workers.dev/
+👉 [Vercel](https://mail-pi-eight.vercel.app/)
 
 Video walkthrough of the specification:
 🎥 [YouTube](https://youtu.be/scyvx77RVhU)

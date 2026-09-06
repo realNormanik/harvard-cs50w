@@ -92,7 +92,7 @@ Then navigate to `http://127.0.0.1:3000` and start using the application.
 
 ## 🚀 Demo
 You can view a working version of the project here:
-👉 https://search.realnormanik.workers.dev/
+👉 [Vercel](https://search-woad-psi.vercel.app/)
 
 Video walkthrough of the specification:
 🎥 [YouTube](https://youtu.be/2qbXnwN5jjc)

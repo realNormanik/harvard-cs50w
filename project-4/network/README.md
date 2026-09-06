@@ -152,10 +152,10 @@ python manage.py collectstatic
 
 ## 🎥 Demo
 You can view a working version of the project here:
-👉 https://search.realnormanik.workers.dev/
+👉 [Vercel](https://network-tawny-alpha.vercel.app/)
 
 Video walkthrough of the specification:
-🎥 https://youtu.be/tdkpOleV3NY
+🎥 [YouTube](https://youtu.be/tdkpOleV3NY)
 
 ## 📜 Certification
 This project was submitted as part of the CS50’s Web Programming with Python and JavaScript course offered by Harvard University.
