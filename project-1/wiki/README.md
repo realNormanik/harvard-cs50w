@@ -149,7 +149,7 @@ python manage.py collectstatic
 
 ## 🎥 Demo
 You can view a working version of the project here:
-👉 https://search.realnormanik.workers.dev/
+👉 [Vercel](https://wiki-gamma-two.vercel.app/)
 
 Video walkthrough of the specification:
 🎥 [YouTube](https://youtu.be/NnjaS8e03pI)
