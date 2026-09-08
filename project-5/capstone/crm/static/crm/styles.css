@@ -1051,7 +1051,7 @@ button:hover .telescope {
     margin: 0 0 -12.8px;
     text-decoration: var(--text-decoration-none);
     font-family: var(--font-mono);
-    padding: 3px var(--space-xl) var(--space-xl) var(--space-xl);
+    padding: 3px var(--space-xl) 20px var(--space-xl);
     -webkit-text-decoration: var(--text-decoration-none);
     transition: var(--transition-color);
 }
