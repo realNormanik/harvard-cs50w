@@ -178,7 +178,13 @@ python manage.py collectstatic
 
 ## 🎥 Demo
 You can view a working version of the project here:
-👉 https://search.realnormanik.workers.dev/
+👉 [Vercel](https://capstone-sepia-ten.vercel.app/)
+
+### 🔐 Demo Login Credentials
+
+| Username | Password   |
+| -------- | ---------- |
+| `user`   | `password` |
 
 Video walkthrough of the specification:
 🎥 [YouTube](https://youtu.be/D95OuOGGzyk)
