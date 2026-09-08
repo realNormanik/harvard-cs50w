@@ -72,6 +72,24 @@
     --card-shadow: var(--shadow-glass);
     --card-shadow-hover: 0 14px 34px rgba(31, 41, 102, .16);
 
+    /* GitHub badge */
+    --color-github-bg: #343535;
+    --color-github-hover: #a6a6a6;
+    --color-github-text: #ffffff;
+    --font-size-base: 16px;
+    --text-decoration-none: none;
+    --width-full: 100%;
+    --height-full: 100%;
+    --display-flex: flex;
+    --align-center: center;
+    --position-fixed: fixed;
+    --position-absolute: absolute;
+    --z-github: 2;
+    --position-edge-0: 0;
+    --space-xl: 25px;
+    --size-github-box: 200px;
+    --transition-color: color .15s cubic-bezier(1, -.115, .975, .855);
+
     --radius-sm: 10px;
     --radius-md: 16px;
     --radius-lg: 24px;
@@ -982,6 +1000,72 @@ button:hover .telescope {
     transition: all 1s;
 }
 
+/* ==========================================================================
+   GITHUB CORNER BADGE
+   ========================================================================== */
+
+.github-box {
+    right: var(--position-edge-0);
+    bottom: var(--position-edge-0);
+    z-index: var(--z-github);
+    width: var(--size-github-box);
+    height: var(--size-github-box);
+    overflow: hidden;
+    position: var(--position-fixed);
+}
+
+.github-box div,
+.github-box div a {
+    display: var(--display-flex);
+    align-items: var(--align-center);
+    flex-direction: column;
+}
+
+.github-box div {
+    right: var(--position-edge-0);
+    top: var(--position-edge-0);
+    z-index: 1;
+    width: var(--width-full);
+    height: var(--height-full);
+    position: var(--position-absolute);
+    justify-content: flex-end;
+    transform: rotate(-45deg);
+}
+
+.github-box:after {
+    left: var(--position-edge-0);
+    right: var(--position-edge-0);
+    bottom: var(--position-edge-0);
+    z-index: 0;
+    content: "";
+    display: var(--display-block);
+    position: var(--position-absolute);
+    border-top: var(--size-github-box) solid transparent;
+    border-left: var(--size-github-box) solid transparent;
+    border-bottom: var(--size-github-box) solid var(--color-github-bg);
+}
+
+.github-box div a {
+    color: var(--color-github-text);
+    font-size: var(--font-size-base);
+    margin: 0 0 -12.8px;
+    text-decoration: var(--text-decoration-none);
+    font-family: var(--font-mono);
+    padding: 3px var(--space-xl) var(--space-xl) var(--space-xl);
+    -webkit-text-decoration: var(--text-decoration-none);
+    transition: var(--transition-color);
+}
+
+.github-box div a:focus,
+.github-box div a:hover {
+    color: var(--color-github-hover);
+}
+
+.github-icon {
+    width: 35px;
+    height: 35px;
+    fill: currentColor;
+}
 
 /* ==========================================================================
    RESPONSIVE (MOBILE)
