@@ -54,6 +54,8 @@ capstone/
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
+├── database/                      # Example value for Database
+│   └── example.sql
 ├── .gitignore
 ├── LICENSE
 ├── manage.py

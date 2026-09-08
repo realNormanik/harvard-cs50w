@@ -8,6 +8,8 @@ The Django project contains the following key elements:
 
 ```
 mail/
+├── database/            # Example value for Database
+│   └── example.sql
 ├── mail/                # Django app for all functionality
 │   ├── migrations/
 │   │   ├── __init__.py
@@ -39,6 +41,9 @@ mail/
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py             # API endpoints and page rendering
+├── media/                   # Example media for demo
+│   └── uploads/
+│       └── IlGqDZY84G.webp
 ├── project3/                # Main project configuration
 │   ├── __init__.py
 │   ├── asgi.py
@@ -144,8 +149,15 @@ python manage.py collectstatic
 ```
 
 ## 🎥 Demo
+
 You can view a working version of the project here:
 👉 [Vercel](https://mail-pi-eight.vercel.app/)
+
+### 🔐 Demo Login Credentials
+
+| Username             | Password   |
+| -------------------- | ---------- |
+| `user@example.com`   | `password` |
 
 Video walkthrough of the specification:
 🎥 [YouTube](https://youtu.be/scyvx77RVhU)

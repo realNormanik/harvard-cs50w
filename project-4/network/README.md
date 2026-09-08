@@ -7,7 +7,21 @@ This project is a basic social networking platform—similar to X/Twitter—buil
 The Django project contains the following key elements:
 
 ```
-cs50-network/
+network/
+├── database/            # Example value for Database
+│   └── example.sql
+├── media/                   # Example media for demo
+│   ├──  profiles/
+│   │   ├── XggFs3wdqc.webp
+│   │   ├── ZgnaoxbVZu.webp
+│   │   └── zQJna22Ox9.webp
+│   └── tweets/
+│       ├── AHTIhKehYu.webp
+│       ├── FkAAufVXBF.webp
+│       ├── hMtjqf65wf.webp
+│       ├── IlGqDZY84G.webp
+│       ├── Si8cbQUF4U.webp
+│       └── XpAL3VzL5g.webp
 ├── network/                # Django app for tweet, likes and posts
 │   ├── migrations/
 │   │   ├── __init__.py
@@ -153,6 +167,12 @@ python manage.py collectstatic
 ## 🎥 Demo
 You can view a working version of the project here:
 👉 [Vercel](https://network-tawny-alpha.vercel.app/)
+
+### 🔐 Demo Login Credentials
+
+| Username | Password   |
+| -------- | ---------- |
+| `user`   | `password` |
 
 Video walkthrough of the specification:
 🎥 [YouTube](https://youtu.be/tdkpOleV3NY)

@@ -52,8 +52,19 @@ cs50-commerce/
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
-├── media/
-│   └── placeholder.webp
+├── database/                # Example value for Database
+│   └── example.sql
+├── media/                   # Example media for demo
+│   ├── auctions/
+│   │   ├── JVh6U4pfLw-black.webp
+│   │   ├── JVh6U4pfLw-white.webp
+│   │   ├── OA9dl5Xayf-black.webp
+│   │   ├── OA9dl5Xayf-white.webp
+│   │   ├── tKRe88UyX1-black.webp
+│   │   ├── tKRe88UyX1-white.webp
+│   │   └── w22uGNAzzh.webp
+│   └── comments/
+│       └── fQQxduthop.webp
 ├── .gitignore
 ├── LICENSE
 ├── manage.py
@@ -142,8 +153,15 @@ python manage.py collectstatic
 ```
 
 ## 🎥 Demo
+
 You can view a working version of the project here:
 👉 [Vercel](https://commerce-theta-ten-58.vercel.app/)
+
+### 🔐 Demo Login Credentials
+
+| Username | Password   |
+| -------- | ---------- |
+| `user`   | `password` |
 
 Video walkthrough of the specification:
 🎥 [YouTube](https://youtu.be/vwTs_1Wbv5U)
